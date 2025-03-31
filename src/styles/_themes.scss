@@ -1,0 +1,35 @@
+@import 'variables';
+
+// This file will be expanded in Phase 7 to support full theme switching
+// For now it contains minimal theme variables
+
+:root {
+  // Base colors
+  --color-primary: #{$primary-color};
+  --color-secondary: #{$secondary-color};
+  --color-success: #{$success-color};
+  --color-warning: #{$warning-color};
+  --color-danger: #{$danger-color};
+  --color-info: #{$info-color};
+  
+  // Theme colors
+  --color-background: #ffffff;
+  --color-surface: #f8f9fa;
+  --color-text: #333333;
+  --color-text-secondary: #666666;
+  --color-border: #e0e0e0;
+  
+  // Rarity colors
+  --color-common: #{$common-color};
+  --color-rare: #{$rare-color};
+  --color-epic: #{$epic-color};
+}
+
+// Dark theme variables - will be applied in Phase 7
+[data-theme="dark"] {
+  --color-background: #121212;
+  --color-surface: #1e1e1e;
+  --color-text: #f5f5f5;
+  --color-text-secondary: #aaaaaa;
+  --color-border: #2c2c2c;
+}

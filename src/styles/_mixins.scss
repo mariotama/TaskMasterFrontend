@@ -1,0 +1,56 @@
+// Colors
+$primary-color: #4a6eb5;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$info-color: #17a2b8;
+$warning-color: #ffc107;
+$danger-color: #dc3545;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+
+// Rarity colors
+$common-color: #a5a5a5;
+$rare-color: #4a90e2;
+$epic-color: #9b59b6;
+
+// Typography
+$font-family-base: 'Roboto', sans-serif;
+$font-size-base: 1rem;
+$line-height-base: 1.5;
+
+// Spacing
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+);
+
+// Breakpoints
+$breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+);
+
+// Z-indices
+$z-indices: (
+  dropdown: 1000,
+  sticky: 1020,
+  fixed: 1030,
+  modal-backdrop: 1040,
+  modal: 1050,
+  popover: 1060,
+  tooltip: 1070,
+);
+
+// Animation durations
+$animation-duration-fast: 150ms;
+$animation-duration-normal: 300ms;
+$animation-duration-slow: 500ms;

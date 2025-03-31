@@ -1,0 +1,251 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'variables';
+@import 'mixins';
+@import 'themes';
+
+// Base styles
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: var(--color-text);
+  background-color: var(--color-background);
+}
+
+// Basic utility classes
+.text-center {
+  text-align: center;
+}
+
+.mt-1 { margin-top: map-get($spacers, 1); }
+.mt-2 { margin-top: map-get($spacers, 2); }
+.mt-3 { margin-top: map-get($spacers, 3); }
+.mt-4 { margin-top: map-get($spacers, 4); }
+.mt-5 { margin-top: map-get($spacers, 5); }
+
+.mb-1 { margin-bottom: map-get($spacers, 1); }
+.mb-2 { margin-bottom: map-get($spacers, 2); }
+.mb-3 { margin-bottom: map-get($spacers, 3); }
+.mb-4 { margin-bottom: map-get($spacers, 4); }
+.mb-5 { margin-bottom: map-get($spacers, 5); }
+
+// Container
+.container {
+  width: 100%;
+  max-width: 1200px;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+// Button styles
+.btn {
+  display: inline-block;
+  font-weight: 500;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  border: 1px solid transparent;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all $animation-duration-normal ease-in-out;
+  cursor: pointer;
+  
+  &:hover {
+    opacity: 0.9;
+  }
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+.btn-primary {
+  color: white;
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.btn-secondary {
+  color: white;
+  background-color: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn-success {
+  color: white;
+  background-color: var(--color-success);
+  border-color: var(--color-success);
+}
+
+.btn-danger {
+  color: white;
+  background-color: var(--color-danger);
+  border-color: var(--color-danger);
+}
+
+// Form styles
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: white;
+  background-clip: padding-box;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  
+  &:focus {
+    border-color: var(--color-primary);
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(74, 110, 181, 0.25);
+  }
+  
+  &.is-invalid {
+    border-color: var(--color-danger);
+  }
+}
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 0.875rem;
+  color: var(--color-danger);
+}
+
+// Card styles
+.card {
+  @include card;
+  margin-bottom: 1rem;
+}
+
+.card-header {
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.card-title {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.card-body {
+  flex: 1 1 auto;
+}
+
+.card-footer {
+  padding-top: 0.75rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+// Badge styles for rarity
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.badge-common {
+  background-color: var(--color-common);
+  color: white;
+}
+
+.badge-rare {
+  background-color: var(--color-rare);
+  color: white;
+}
+
+.badge-epic {
+  background-color: var(--color-epic);
+  color: white;
+}
+
+// Progress bar
+.progress-container {
+  width: 100%;
+  height: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 1rem 0;
+}
+
+.progress-bar {
+  height: 100%;
+  background-color: var(--color-primary);
+  border-radius: 5px;
+  transition: width 0.3s ease;
+}
+
+// Utilities for flexbox
+.d-flex {
+  display: flex;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-grow-1 {
+  flex-grow: 1;
+}
+
+// Responsive utilities
+@media (max-width: 576px) {
+  .d-sm-none {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .d-md-none {
+    display: none !important;
+  }
+}

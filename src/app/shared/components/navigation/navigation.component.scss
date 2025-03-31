@@ -1,0 +1,82 @@
+.main-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #4a6eb5;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-item {
+  margin: 0 1rem;
+}
+
+.nav-item a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  padding: 0.5rem 0;
+  transition: color 0.3s ease;
+  position: relative;
+}
+
+.nav-item a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: #4a6eb5;
+  transition: width 0.3s ease;
+}
+
+.nav-item a:hover {
+  color: #4a6eb5;
+}
+
+.nav-item a:hover::after,
+.nav-item a.active::after {
+  width: 100%;
+}
+
+.nav-auth {
+  display: flex;
+  align-items: center;
+}
+
+.nav-auth a {
+  margin-left: 1rem;
+  text-decoration: none;
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.nav-auth a:hover {
+  color: #4a6eb5;
+}
+
+.register-btn {
+  padding: 0.5rem 1rem;
+  background-color: #4a6eb5;
+  color: white !important;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.register-btn:hover {
+  background-color: #3a5c9e;
+}

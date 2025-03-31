@@ -1,0 +1,42 @@
+.task-detail-container {
+  padding: 1.5rem;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.task-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.back-button {
+  background: none;
+  border: none;
+  color: #4a6eb5;
+  cursor: pointer;
+  font-weight: 500;
+  padding: 0;
+}
+
+.task-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.task-detail-placeholder {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.placeholder-content {
+  text-align: center;
+}
+
+.placeholder-content h2 {
+  margin-bottom: 1rem;
+  color: #4a6eb5;
+}

@@ -1,0 +1,51 @@
+.register-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 2rem;
+}
+
+.register-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 2rem;
+  width: 100%;
+  max-width: 400px;
+}
+
+.register-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.register-description {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.register-form-placeholder {
+  background-color: #f5f5f5;
+  border: 1px dashed #ccc;
+  padding: 2rem;
+  border-radius: 4px;
+  text-align: center;
+  margin: 1.5rem 0;
+}
+
+.register-footer {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+}
+
+.register-footer a {
+  color: #4a6eb5;
+  text-decoration: none;
+}
+
+.register-footer a:hover {
+  text-decoration: underline;
+}
