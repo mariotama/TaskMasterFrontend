@@ -3,10 +3,62 @@
     <h1 class="login-title">Login</h1>
     <p class="login-description">Enter your credentials to continue</p>
 
-    <!-- Placeholder for login form that will be implemented in Phase 2 -->
-    <div class="login-form-placeholder">
-      <p>Login form will be implemented in Phase 2</p>
-    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+      }
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="
+            loginForm.get('email')?.invalid && loginForm.get('email')?.touched
+          "
+        />
+        @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
+        {
+        <div class="invalid-feedback">
+          @if (loginForm.get('email')?.errors?.['required']) { Email is required
+          } @else if (loginForm.get('email')?.errors?.['email']) { Please enter
+          a valid email address }
+        </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="
+            loginForm.get('password')?.invalid &&
+            loginForm.get('password')?.touched
+          "
+        />
+        @if (loginForm.get('password')?.invalid &&
+        loginForm.get('password')?.touched) {
+        <div class="invalid-feedback">
+          @if (loginForm.get('password')?.errors?.['required']) { Password is
+          required } @else if (loginForm.get('password')?.errors?.['minlength'])
+          { Password must be at least 6 characters }
+        </div>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary login-btn"
+        [disabled]="loginForm.invalid || isSubmitting"
+      >
+        @if (isSubmitting) { Logging in... } @else { Login }
+      </button>
+    </form>
 
     <div class="login-footer">
       <p>Don't have an account? <a routerLink="/auth/register">Register</a></p>

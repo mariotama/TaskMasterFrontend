@@ -5,10 +5,91 @@
       Join TaskMaster and start your productivity journey
     </p>
 
-    <!-- Placeholder for register form that will be implemented in Phase 2 -->
-    <div class="register-form-placeholder">
-      <p>Registration form will be implemented in Phase 2</p>
-    </div>
+    <form
+      [formGroup]="registerForm"
+      (ngSubmit)="onSubmit()"
+      class="register-form"
+    >
+      @if (errorMessage) {
+      <div class="alert alert-danger">{{ errorMessage }}</div>
+      }
+
+      <div class="form-group">
+        <label for="username" class="form-label">Username</label>
+        <input
+          type="text"
+          id="username"
+          formControlName="username"
+          class="form-control"
+          [class.is-invalid]="
+            registerForm.get('username')?.invalid &&
+            registerForm.get('username')?.touched
+          "
+        />
+        @if (registerForm.get('username')?.invalid &&
+        registerForm.get('username')?.touched) {
+        <div class="invalid-feedback">
+          @if (registerForm.get('username')?.errors?.['required']) { Username is
+          required } @else if
+          (registerForm.get('username')?.errors?.['minlength']) { Username must
+          be at least 3 characters }
+        </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          formControlName="email"
+          class="form-control"
+          [class.is-invalid]="
+            registerForm.get('email')?.invalid &&
+            registerForm.get('email')?.touched
+          "
+        />
+        @if (registerForm.get('email')?.invalid &&
+        registerForm.get('email')?.touched) {
+        <div class="invalid-feedback">
+          @if (registerForm.get('email')?.errors?.['required']) { Email is
+          required } @else if (registerForm.get('email')?.errors?.['email']) {
+          Please enter a valid email address }
+        </div>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          formControlName="password"
+          class="form-control"
+          [class.is-invalid]="
+            registerForm.get('password')?.invalid &&
+            registerForm.get('password')?.touched
+          "
+        />
+        @if (registerForm.get('password')?.invalid &&
+        registerForm.get('password')?.touched) {
+        <div class="invalid-feedback">
+          @if (registerForm.get('password')?.errors?.['required']) { Password is
+          required } @else if
+          (registerForm.get('password')?.errors?.['minlength']) { Password must
+          be at least 6 characters }
+        </div>
+        }
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary register-btn"
+        [disabled]="registerForm.invalid || isSubmitting"
+      >
+        @if (isSubmitting) { Creating account... } @else { Create Account }
+      </button>
+    </form>
 
     <div class="register-footer">
       <p>Already have an account? <a routerLink="/auth/login">Log in</a></p>

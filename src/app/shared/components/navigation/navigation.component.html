@@ -2,7 +2,9 @@
   <div class="nav-logo">
     <span class="logo-text">TaskMaster</span>
   </div>
+
   <ul class="nav-links">
+    @if (isAuthenticated()) {
     <li class="nav-item">
       <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
     </li>
@@ -15,14 +17,25 @@
     <li class="nav-item">
       <a routerLink="/achievements" routerLinkActive="active">Achievements</a>
     </li>
+    }
   </ul>
+
   <div class="nav-auth">
+    @if (isAuthenticated()) {
+    <div class="user-info">
+      <span class="user-level">Level {{ currentUser()?.level }}</span>
+      <span class="user-name">{{ currentUser()?.username }}</span>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </div>
+    } @else {
     <a routerLink="/auth/login" routerLinkActive="active">Login</a>
+
     <a
       routerLink="/auth/register"
       routerLinkActive="active"
       class="register-btn"
       >Register</a
     >
+    }
   </div>
 </nav>

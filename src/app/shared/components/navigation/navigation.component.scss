@@ -1,3 +1,4 @@
+/* src/app/shared/components/navigation/navigation.component.scss */
 .main-nav {
   display: flex;
   justify-content: space-between;
@@ -79,4 +80,38 @@
 
 .register-btn:hover {
   background-color: #3a5c9e;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-level {
+  background-color: #4a6eb5;
+  color: white;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0.25rem 0.5rem;
+  border-radius: 10px;
+}
+
+.user-name {
+  font-weight: 500;
+}
+
+.btn-logout {
+  background: none;
+  border: 1px solid #4a6eb5;
+  color: #4a6eb5;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: #4a6eb5;
+  color: white;
 }
