@@ -1,16 +1,16 @@
-@import 'variables';
+@use 'variables' as vars;
 
 // This file will be expanded in Phase 7 to support full theme switching
 // For now it contains minimal theme variables
 
 :root {
   // Base colors
-  --color-primary: #{$primary-color};
-  --color-secondary: #{$secondary-color};
-  --color-success: #{$success-color};
-  --color-warning: #{$warning-color};
-  --color-danger: #{$danger-color};
-  --color-info: #{$info-color};
+  --color-primary: #{vars.$primary-color};
+  --color-secondary: #{vars.$secondary-color};
+  --color-success: #{vars.$success-color};
+  --color-warning: #{vars.$warning-color};
+  --color-danger: #{vars.$danger-color};
+  --color-info: #{vars.$info-color};
   
   // Theme colors
   --color-background: #ffffff;
@@ -20,9 +20,9 @@
   --color-border: #e0e0e0;
   
   // Rarity colors
-  --color-common: #{$common-color};
-  --color-rare: #{$rare-color};
-  --color-epic: #{$epic-color};
+  --color-common: #{vars.$common-color};
+  --color-rare: #{vars.$rare-color};
+  --color-epic: #{vars.$epic-color};
 }
 
 // Dark theme variables - will be applied in Phase 7

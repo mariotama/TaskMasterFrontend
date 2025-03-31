@@ -1,7 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
-@import 'variables';
-@import 'mixins';
-@import 'themes';
+@use 'variables' as vars;
+@use 'mixins' as mix;
+@use 'themes' as *;
+@use 'sass:map';
 
 // Base styles
 * {
@@ -12,9 +13,9 @@
 
 html, body {
   height: 100%;
-  font-family: $font-family-base;
-  font-size: $font-size-base;
-  line-height: $line-height-base;
+  font-family: vars.$font-family-base;
+  font-size: vars.$font-size-base;
+  line-height: vars.$line-height-base;
   color: var(--color-text);
   background-color: var(--color-background);
 }
@@ -24,17 +25,17 @@ html, body {
   text-align: center;
 }
 
-.mt-1 { margin-top: map-get($spacers, 1); }
-.mt-2 { margin-top: map-get($spacers, 2); }
-.mt-3 { margin-top: map-get($spacers, 3); }
-.mt-4 { margin-top: map-get($spacers, 4); }
-.mt-5 { margin-top: map-get($spacers, 5); }
+.mt-1 { margin-top: map.get(vars.$spacers, 1); }
+.mt-2 { margin-top: map.get(vars.$spacers, 2); }
+.mt-3 { margin-top: map.get(vars.$spacers, 3); }
+.mt-4 { margin-top: map.get(vars.$spacers, 4); }
+.mt-5 { margin-top: map.get(vars.$spacers, 5); }
 
-.mb-1 { margin-bottom: map-get($spacers, 1); }
-.mb-2 { margin-bottom: map-get($spacers, 2); }
-.mb-3 { margin-bottom: map-get($spacers, 3); }
-.mb-4 { margin-bottom: map-get($spacers, 4); }
-.mb-5 { margin-bottom: map-get($spacers, 5); }
+.mb-1 { margin-bottom: map.get(vars.$spacers, 1); }
+.mb-2 { margin-bottom: map.get(vars.$spacers, 2); }
+.mb-3 { margin-bottom: map.get(vars.$spacers, 3); }
+.mb-4 { margin-bottom: map.get(vars.$spacers, 4); }
+.mb-5 { margin-bottom: map.get(vars.$spacers, 5); }
 
 // Container
 .container {
@@ -58,7 +59,7 @@ html, body {
   padding: 0.5rem 1rem;
   font-size: 1rem;
   border-radius: 4px;
-  transition: all $animation-duration-normal ease-in-out;
+  transition: all vars.$animation-duration-normal ease-in-out;
   cursor: pointer;
   
   &:hover {
@@ -140,7 +141,7 @@ html, body {
 
 // Card styles
 .card {
-  @include card;
+  @include mix.card;
   margin-bottom: 1rem;
 }
 
