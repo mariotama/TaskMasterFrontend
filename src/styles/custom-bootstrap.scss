@@ -1,0 +1,31 @@
+// src/styles/_custom-bootstrap.scss
+
+// Primero importamos las funciones de Bootstrap (necesarias para map-merge y otras funciones)
+@import "bootstrap/scss/functions";
+
+// Luego importamos las variables por defecto de Bootstrap
+@import "bootstrap/scss/variables";
+
+// Ahora definimos tus colores personalizados
+$primary: #7a21b1;    // Rojo granate
+$secondary: #6c757d;  // Gris
+$success: #28a745;    // Verde
+$info: #17a2b8;       // Azul claro
+$warning: #ffc107;    // Amarillo
+$danger: #dc3545;     // Rojo
+
+// Creamos un mapa con nuestros colores personalizados
+$custom-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "success": $success,
+  "info": $info,
+  "warning": $warning,
+  "danger": $danger
+);
+
+// Fusionamos con los temas de Bootstrap
+$theme-colors: map-merge($theme-colors, $custom-colors);
+
+// Finalmente importamos el resto de Bootstrap
+@import "bootstrap/scss/bootstrap";

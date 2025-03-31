@@ -1,0 +1,62 @@
+<div class="card mb-3 task-card" [class.completed]="task.isCompleted">
+  <div class="card-body">
+    <div class="d-flex justify-content-between align-items-start">
+      <h5
+        class="card-title"
+        [class.text-decoration-line-through]="task.isCompleted"
+      >
+        {{ task.title }}
+      </h5>
+      <span
+        class="badge"
+        [class.bg-info]="task.type === 'daily'"
+        [class.bg-warning]="task.type === 'mission'"
+      >
+        {{ task.type === "daily" ? "Daily" : "Mission" }}
+      </span>
+    </div>
+
+    @if (task.description) {
+    <p
+      class="card-text text-secondary mb-3"
+      [class.text-decoration-line-through]="task.isCompleted"
+    >
+      {{ task.description }}
+    </p>
+    }
+
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <span class="me-3 badge bg-light text-dark">
+          <i class="bi bi-star-fill text-warning"></i> {{ task.xpReward }}
+        </span>
+        <span class="badge bg-light text-dark">
+          <i class="bi bi-coin text-warning"></i> {{ task.coinReward }}
+        </span>
+      </div>
+
+      <div class="btn-group">
+        @if (!task.isCompleted) {
+        <a
+          [routerLink]="['/tasks', task.id, 'complete']"
+          class="btn btn-sm btn-success"
+        >
+          <i class="bi bi-check-lg"></i>
+        </a>
+        }
+        <a [routerLink]="['/tasks', task.id]" class="btn btn-sm btn-primary">
+          <i class="bi bi-eye"></i>
+        </a>
+        <a
+          [routerLink]="['/tasks', task.id, 'edit']"
+          class="btn btn-sm btn-secondary"
+        >
+          <i class="bi bi-pencil"></i>
+        </a>
+        <button (click)="onDelete($event)" class="btn btn-sm btn-danger">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

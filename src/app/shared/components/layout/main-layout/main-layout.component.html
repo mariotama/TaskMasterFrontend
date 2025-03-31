@@ -1,11 +1,14 @@
-<div class="app-container">
+<!-- src/app/shared/components/layout/main-layout/main-layout.component.html -->
+<div class="d-flex flex-column min-vh-100">
   <app-navigation></app-navigation>
-  <main class="main-content">
+
+  <main class="flex-grow-1 bg-light">
     <router-outlet></router-outlet>
   </main>
-  <footer class="app-footer">
-    <div class="footer-content">
-      <p>&copy; 2025 TaskMaster - Gamify Your Productivity</p>
+
+  <footer class="bg-dark text-light py-3">
+    <div class="container text-center">
+      <p class="mb-0">&copy; 2025 TaskMaster - Gamify Your Productivity</p>
     </div>
   </footer>
 </div>

@@ -1,41 +1,66 @@
-<nav class="main-nav">
-  <div class="nav-logo">
-    <span class="logo-text">TaskMaster</span>
-  </div>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">TaskMaster</a>
 
-  <ul class="nav-links">
-    @if (isAuthenticated()) {
-    <li class="nav-item">
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/tasks" routerLinkActive="active">Tasks</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/shop" routerLinkActive="active">Shop</a>
-    </li>
-    <li class="nav-item">
-      <a routerLink="/achievements" routerLinkActive="active">Achievements</a>
-    </li>
-    }
-  </ul>
-
-  <div class="nav-auth">
-    @if (isAuthenticated()) {
-    <div class="user-info">
-      <span class="user-level">Level {{ currentUser()?.level }}</span>
-      <span class="user-name">{{ currentUser()?.username }}</span>
-      <button class="btn-logout" (click)="logout()">Logout</button>
-    </div>
-    } @else {
-    <a routerLink="/auth/login" routerLinkActive="active">Login</a>
-
-    <a
-      routerLink="/auth/register"
-      routerLinkActive="active"
-      class="register-btn"
-      >Register</a
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarContent"
+      aria-controls="navbarContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
     >
-    }
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        @if (isAuthenticated()) {
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/dashboard" routerLinkActive="active"
+            >Dashboard</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/tasks" routerLinkActive="active"
+            >Tasks</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/shop" routerLinkActive="active"
+            >Shop</a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/achievements"
+            routerLinkActive="active"
+            >Achievements</a
+          >
+        </li>
+        }
+      </ul>
+
+      <div class="d-flex">
+        @if (isAuthenticated()) {
+        <div class="d-flex align-items-center">
+          <span class="badge bg-primary me-2"
+            >Level {{ currentUser()?.level }}</span
+          >
+          <span class="me-3">{{ currentUser()?.username }}</span>
+          <button class="btn btn-outline-primary btn-sm" (click)="logout()">
+            Logout
+          </button>
+        </div>
+        } @else {
+        <a class="btn btn-outline-primary me-2" routerLink="/auth/login"
+          >Login</a
+        >
+        <a class="btn btn-primary" routerLink="/auth/register">Register</a>
+        }
+      </div>
+    </div>
   </div>
 </nav>

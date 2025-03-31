@@ -1,0 +1,35 @@
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">Task Statistics</h5>
+  </div>
+  <div class="card-body">
+    @if (isLoading()) {
+    <div class="d-flex justify-content-center p-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    } @else {
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="stat-item">
+          <div class="stat-value">{{ stats().totalCompleted }}</div>
+          <div class="stat-label">Total Completed</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-item">
+          <div class="stat-value">{{ stats().dailyCompleted }}</div>
+          <div class="stat-label">Daily Tasks</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-item">
+          <div class="stat-value">{{ stats().missionsCompleted }}</div>
+          <div class="stat-label">Missions</div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+</div>

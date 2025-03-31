@@ -1,23 +1,113 @@
-<div class="task-list-container">
-  <header class="task-list-header">
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
     <h1>My Tasks</h1>
-    <div class="task-actions">
-      <button class="btn btn-primary">Create Task</button>
-    </div>
-  </header>
-
-  <div class="task-filters">
-    <button class="filter-btn active">All</button>
-    <button class="filter-btn">Daily</button>
-    <button class="filter-btn">Missions</button>
-    <button class="filter-btn">Completed</button>
+    <a routerLink="/tasks/new" class="btn btn-primary">
+      <i class="bi bi-plus"></i> Create Task
+    </a>
   </div>
 
-  <div class="task-list-placeholder">
-    <div class="placeholder-content">
-      <h2>Task Management</h2>
-      <p>The task list will be implemented in Phase 3.</p>
-      <p>Here you will see all your tasks and be able to manage them.</p>
+  <!-- Filters -->
+  <div class="btn-group mb-4">
+    <button
+      (click)="applyFilter('all')"
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'all'"
+      [class.btn-outline-primary]="currentFilter() !== 'all'"
+    >
+      All
+    </button>
+    <button
+      (click)="applyFilter('daily')"
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'daily'"
+      [class.btn-outline-primary]="currentFilter() !== 'daily'"
+    >
+      Daily
+    </button>
+    <button
+      (click)="applyFilter('missions')"
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'missions'"
+      [class.btn-outline-primary]="currentFilter() !== 'missions'"
+    >
+      Missions
+    </button>
+    <button
+      (click)="applyFilter('completed')"
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'completed'"
+      [class.btn-outline-primary]="currentFilter() !== 'completed'"
+    >
+      Completed
+    </button>
+  </div>
+
+  <!-- Tasks List -->
+  @if (isLoading()) {
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+  } @else { @if (filteredTasks().length > 0) {
+  <div class="list-group">
+    @for (task of filteredTasks(); track task.id) {
+    <div
+      class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+    >
+      <div
+        class="task-content"
+        [class.text-decoration-line-through]="task.isCompleted"
+      >
+        <div class="d-flex align-items-center">
+          <span
+            class="badge me-2"
+            [class.bg-info]="task.type === 'daily'"
+            [class.bg-warning]="task.type === 'mission'"
+          >
+            {{ task.type === "daily" ? "Daily" : "Mission" }}
+          </span>
+          <h5 class="mb-1">{{ task.title }}</h5>
+        </div>
+        @if (task.description) {
+        <p class="mb-1 text-secondary">{{ task.description }}</p>
+        }
+        <div class="d-flex mt-2">
+          <small class="me-3">
+            <i class="bi bi-star-fill text-warning"></i> {{ task.xpReward }} XP
+          </small>
+          <small>
+            <i class="bi bi-coin text-warning"></i> {{ task.coinReward }} coins
+          </small>
+        </div>
+      </div>
+
+      <div class="d-flex">
+        @if (!task.isCompleted) {
+        <a
+          [routerLink]="['/tasks', task.id, 'complete']"
+          class="btn btn-success btn-sm me-2"
+        >
+          <i class="bi bi-check-lg"></i>
+        </a>
+        }
+        <a
+          [routerLink]="['/tasks', task.id, 'edit']"
+          class="btn btn-primary btn-sm me-2"
+        >
+          <i class="bi bi-pencil"></i>
+        </a>
+        <button (click)="deleteTask(task.id)" class="btn btn-danger btn-sm">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <div class="alert alert-info text-center py-5">
+    <i class="bi bi-inbox-fill fs-1 d-block mb-3"></i>
+    <p class="mb-0">No tasks found. Create a new task to get started!</p>
+  </div>
+  } }
 </div>

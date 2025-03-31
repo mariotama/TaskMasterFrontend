@@ -29,5 +29,5 @@ export interface TaskCompletion {
   completedAt: Date;
   xpEarned: number;
   coinsEarned: number;
-  taskId: number;
+  task: Task;
 }

@@ -1,0 +1,79 @@
+<div class="card">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">Completion History</h5>
+  </div>
+  <div class="card-body">
+    @if (isLoading()) {
+    <div class="d-flex justify-content-center p-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    } @else if (completions().length === 0) {
+    <div class="text-center p-4">
+      <p class="mb-0 text-muted">No completed tasks found.</p>
+    </div>
+    } @else {
+    <div class="table-responsive">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>Task</th>
+            <th>Completed</th>
+            <th>XP</th>
+            <th>Coins</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (completion of completions(); track completion.id) {
+          <tr>
+            <td>{{ completion.task.title }}</td>
+            <td>{{ completion.completedAt | date : "medium" }}</td>
+            <td>
+              <span class="badge bg-info">+{{ completion.xpEarned }}</span>
+            </td>
+            <td>
+              <span class="badge bg-warning text-dark"
+                >+{{ completion.coinsEarned }}</span
+              >
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Pagination -->
+    @if (totalPages() > 1) {
+    <nav aria-label="Task history pagination">
+      <ul class="pagination justify-content-center mb-0 mt-3">
+        <li class="page-item" [class.disabled]="currentPage() === 1">
+          <button
+            class="page-link"
+            (click)="changePage(currentPage() - 1)"
+            [disabled]="currentPage() === 1"
+          >
+            Previous
+          </button>
+        </li>
+        @for (page of [].constructor(totalPages()); track $index) {
+        <li class="page-item" [class.active]="currentPage() === $index + 1">
+          <button class="page-link" (click)="changePage($index + 1)">
+            {{ $index + 1 }}
+          </button>
+        </li>
+        }
+        <li class="page-item" [class.disabled]="currentPage() === totalPages()">
+          <button
+            class="page-link"
+            (click)="changePage(currentPage() + 1)"
+            [disabled]="currentPage() === totalPages()"
+          >
+            Next
+          </button>
+        </li>
+      </ul>
+    </nav>
+    } }
+  </div>
+</div>

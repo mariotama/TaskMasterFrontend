@@ -1,0 +1,153 @@
+<div class="container py-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h2 class="mb-0">{{ isEditMode() ? "Edit Task" : "Create New Task" }}</h2>
+    </div>
+    <div class="card-body">
+      @if (isLoading()) {
+      <div class="d-flex justify-content-center my-4">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      } @else { @if (errorMessage()) {
+      <div class="alert alert-danger">{{ errorMessage() }}</div>
+      }
+
+      <form [formGroup]="taskForm" (ngSubmit)="onSubmit()">
+        <!-- Title -->
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="form-control"
+            [class.is-invalid]="
+              taskForm.get('title')?.invalid && taskForm.get('title')?.touched
+            "
+          />
+          <div class="invalid-feedback">
+            @if (taskForm.get('title')?.hasError('required')) { Title is
+            required } @else if (taskForm.get('title')?.hasError('minlength')) {
+            Title must be at least 3 characters long }
+          </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-3">
+          <label for="description" class="form-label"
+            >Description (Optional)</label
+          >
+          <textarea
+            id="description"
+            formControlName="description"
+            class="form-control"
+            rows="3"
+          ></textarea>
+        </div>
+
+        <!-- Task Type -->
+        <div class="mb-3">
+          <label class="form-label">Task Type</label>
+          <div class="btn-group w-100">
+            @for (type of taskTypes; track type.value) {
+            <input
+              type="radio"
+              class="btn-check"
+              [id]="'type-' + type.value"
+              formControlName="type"
+              [value]="type.value"
+              autocomplete="off"
+            />
+            <label class="btn btn-outline-primary" [for]="'type-' + type.value">
+              {{ type.label }}
+            </label>
+            }
+          </div>
+        </div>
+
+        <div class="row">
+          <!-- XP Reward -->
+          <div class="col-md-6 mb-3">
+            <label for="xpReward" class="form-label">XP Reward</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="xpReward"
+                formControlName="xpReward"
+                class="form-control"
+                min="1"
+                max="100"
+                [class.is-invalid]="
+                  taskForm.get('xpReward')?.invalid &&
+                  taskForm.get('xpReward')?.touched
+                "
+              />
+              <span class="input-group-text">XP</span>
+              <div class="invalid-feedback">
+                XP reward must be between 1 and 100
+              </div>
+            </div>
+          </div>
+
+          <!-- Coin Reward -->
+          <div class="col-md-6 mb-3">
+            <label for="coinReward" class="form-label">Coin Reward</label>
+            <div class="input-group">
+              <input
+                type="number"
+                id="coinReward"
+                formControlName="coinReward"
+                class="form-control"
+                min="0"
+                max="50"
+                [class.is-invalid]="
+                  taskForm.get('coinReward')?.invalid &&
+                  taskForm.get('coinReward')?.touched
+                "
+              />
+              <span class="input-group-text">Coins</span>
+              <div class="invalid-feedback">
+                Coin reward must be between 0 and 50
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Due Date -->
+        <div class="mb-4">
+          <label for="dueDate" class="form-label">Due Date (Optional)</label>
+          <input
+            type="date"
+            id="dueDate"
+            formControlName="dueDate"
+            class="form-control"
+          />
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex justify-content-between">
+          <a routerLink="/tasks" class="btn btn-outline-secondary">Cancel</a>
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="taskForm.invalid || isSubmitting()"
+          >
+            @if (isSubmitting()) {
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            {{ isEditMode() ? "Updating..." : "Creating..." }}
+            } @else {
+            {{ isEditMode() ? "Update Task" : "Create Task" }}
+            }
+          </button>
+        </div>
+      </form>
+      }
+    </div>
+  </div>
+</div>

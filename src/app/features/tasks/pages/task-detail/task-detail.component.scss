@@ -1,42 +1,57 @@
-.task-detail-container {
-  padding: 1.5rem;
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-.task-detail-header {
+/* task-detail.component.scss */
+.reward-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1000;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 1.5rem;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
-.back-button {
-  background: none;
-  border: none;
-  color: #4a6eb5;
-  cursor: pointer;
-  font-weight: 500;
-  padding: 0;
+.reward-modal {
+  width: 90%;
+  max-width: 500px;
+  animation: scaleIn 0.4s ease-out;
 }
 
-.task-actions {
+.reward-icons {
   display: flex;
-  gap: 0.75rem;
+  justify-content: center;
+  gap: 3rem;
 }
 
-.task-detail-placeholder {
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+.reward-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.placeholder-content {
-  text-align: center;
+.reward-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0.5rem;
 }
 
-.placeholder-content h2 {
-  margin-bottom: 1rem;
-  color: #4a6eb5;
+.level-up-message {
+  animation: pulse 1s infinite alternate;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.05); }
 }
