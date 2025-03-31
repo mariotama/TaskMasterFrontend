@@ -9,6 +9,8 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   const tokenService = inject(TokenService);
   const token = tokenService.getToken();
 
+  console.log(`JWT Interceptor for ${req.url}:`, !!token);
+
   // If token exists, add it to the request headers
   if (token) {
     const authReq = req.clone({

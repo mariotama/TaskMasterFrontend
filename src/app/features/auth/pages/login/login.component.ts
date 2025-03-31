@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/auth.service';
+import { LoginCredentials } from '../../../../shared/models/auth.model';
 
 @Component({
   selector: 'app-login',
@@ -39,8 +40,18 @@ export class LoginComponent {
     this.isSubmitting = true;
     this.errorMessage = '';
 
-    this.authService.login(this.loginForm.value).subscribe({
-      next: () => {
+    const credentials: LoginCredentials = {
+      email: this.loginForm.get('email')?.value,
+      username: this.loginForm.get('username')?.value,
+      password: this.loginForm.get('password')?.value,
+    };
+
+    console.log('Form values for login:', this.loginForm.value);
+    console.log('Prepared credentials:', credentials);
+
+    this.authService.login(credentials).subscribe({
+      next: (response) => {
+        console.log('Login succeeded with response:', response);
         // Navigate to return URL or dashboard
         const returnUrl =
           this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
@@ -48,8 +59,11 @@ export class LoginComponent {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage =
-          error?.error?.message || 'Login failed. Please try again.';
+        console.error('Login failed with error:', error);
+        this.errorMessage = error?.message || 'Login failed. Please try again.';
+      },
+      complete: () => {
+        this.isSubmitting = false;
       },
     });
   }

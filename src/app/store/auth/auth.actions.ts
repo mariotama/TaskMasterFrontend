@@ -3,7 +3,7 @@ import { User } from '../../shared/models/user.model';
 
 export const login = createAction(
   '[Auth] Login',
-  props<{ email: string; password: string }>()
+  props<{ email: string; username: string; password: string }>()
 );
 
 export const loginSuccess = createAction(

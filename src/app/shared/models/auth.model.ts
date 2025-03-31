@@ -5,6 +5,7 @@ import { User } from './user.model';
  */
 export interface LoginCredentials {
   email: string;
+  username: string;
   password: string;
 }
 

@@ -1,4 +1,3 @@
-// src/app/app.config.ts
 import { ApplicationConfig, isDevMode } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
@@ -11,6 +10,7 @@ import { routes } from './app.routes';
 import { apiInterceptor } from './core/http/api.interceptor';
 import { jwtInterceptor } from './core/http/jwt.interceptor';
 import { errorInterceptor } from './core/http/error.interceptor';
+import { responseTransformInterceptor } from './core/http/response-transform.interceptor';
 
 // NgRx
 import { authReducer } from './store/auth/auth.reducer';
@@ -20,7 +20,12 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(
-      withInterceptors([apiInterceptor, jwtInterceptor, errorInterceptor])
+      withInterceptors([
+        apiInterceptor,
+        responseTransformInterceptor,
+        jwtInterceptor,
+        errorInterceptor,
+      ])
     ),
     provideAnimations(),
     provideStore({

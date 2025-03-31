@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../../core/http/api.service';
 import { Task, TaskType } from '../../../../shared/models/task.model';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-task-list',
@@ -14,6 +15,7 @@ import { Task, TaskType } from '../../../../shared/models/task.model';
 })
 export class TaskListComponent implements OnInit {
   private apiService = inject(ApiService);
+  private authService = inject(AuthService);
 
   tasks = signal<Task[]>([]);
   filteredTasks = signal<Task[]>([]);
@@ -21,7 +23,18 @@ export class TaskListComponent implements OnInit {
   currentFilter = signal('all');
 
   ngOnInit(): void {
-    this.loadTasks();
+    // Only load tasks if authenticated
+    if (this.authService.isAuthenticated()) {
+      this.loadTasks();
+    } else {
+      console.log('Not authenticated, waiting for auth state');
+      // Subscribe to auth changes and load tasks when authenticated
+      this.authService.user$.subscribe((user) => {
+        if (user) {
+          this.loadTasks();
+        }
+      });
+    }
   }
 
   loadTasks(): void {

@@ -18,8 +18,8 @@ export class AuthEffects {
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
-      exhaustMap(({ email, password }) =>
-        this.authService.login({ email, password }).pipe(
+      exhaustMap(({ email, username, password }) =>
+        this.authService.login({ email, username, password }).pipe(
           map((response) =>
             AuthActions.loginSuccess({
               user: response.user,
