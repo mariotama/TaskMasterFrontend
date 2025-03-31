@@ -1,5 +1,5 @@
 // src/app/store/auth/auth.effects.ts
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
@@ -10,6 +10,11 @@ import * as AuthActions from './auth.actions';
 
 @Injectable()
 export class AuthEffects {
+  private actions$: Actions = inject(Actions);
+  private authService: AuthService = inject(AuthService);
+  private tokenService: TokenService = inject(TokenService);
+  private router: Router = inject(Router);
+
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.login),
@@ -91,11 +96,4 @@ export class AuthEffects {
       ),
     { dispatch: false }
   );
-
-  constructor(
-    private actions$: Actions,
-    private authService: AuthService,
-    private tokenService: TokenService,
-    private router: Router
-  ) {}
 }
