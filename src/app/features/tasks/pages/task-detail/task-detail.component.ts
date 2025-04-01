@@ -1,9 +1,11 @@
+// src/app/features/tasks/pages/task-detail/task-detail.component.ts
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { ApiService } from '../../../../core/http/api.service';
 import { Task } from '../../../../shared/models/task.model';
 import { ProgressionResult } from '../../../../shared/models/progression.model';
+import { LevelUpService } from '../../../../shared/services/level-up.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -16,6 +18,7 @@ export class TaskDetailComponent implements OnInit {
   private apiService = inject(ApiService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private levelUpService = inject(LevelUpService);
 
   task = signal<Task | null>(null);
   isLoading = signal(true);
@@ -64,6 +67,11 @@ export class TaskDetailComponent implements OnInit {
           this.task.update((task) =>
             task ? { ...task, isCompleted: true } : null
           );
+
+          // Show level up animation if the user leveled up
+          if (result.leveledUp) {
+            this.levelUpService.showLevelUp(result.currentLevel);
+          }
 
           // After 5 seconds, redirect back to task list
           setTimeout(() => {

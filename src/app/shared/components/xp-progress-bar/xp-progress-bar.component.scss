@@ -1,0 +1,28 @@
+.xp-progress-container {
+  margin: 10px 0;
+}
+
+.xp-level {
+  font-weight: bold;
+  color: #4a6eb5;
+}
+
+.xp-count {
+  font-size: 0.9rem;
+}
+
+.progress {
+  border-radius: 10px;
+  background-color: #e9ecef;
+  overflow: hidden;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.progress-bar {
+  border-radius: 10px;
+  transition: width 0.6s ease;
+}
+
+.next-level-indicator {
+  font-size: 0.8rem;
+}

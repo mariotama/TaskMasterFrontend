@@ -1,0 +1,23 @@
+<div class="xp-progress-container">
+  <div class="xp-info d-flex justify-content-between mb-1">
+    <span class="xp-level">Level {{ level() }}</span>
+    <span class="xp-count">{{ currentXp() }} / {{ xpToNextLevel() }} XP</span>
+  </div>
+
+  <div class="progress" style="height: 10px">
+    <div
+      class="progress-bar bg-primary"
+      role="progressbar"
+      [style.width.%]="progressPercentage()"
+      [attr.aria-valuenow]="progressPercentage()"
+      aria-valuemin="0"
+      aria-valuemax="100"
+    ></div>
+  </div>
+
+  @if (showNextLevel()) {
+  <div class="next-level-indicator d-flex justify-content-end mt-1">
+    <small class="text-muted">Next: Level {{ level() + 1 }}</small>
+  </div>
+  }
+</div>

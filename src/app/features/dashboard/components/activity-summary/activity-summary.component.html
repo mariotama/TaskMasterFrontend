@@ -1,0 +1,73 @@
+<div class="card shadow-sm h-100">
+  <div class="card-header bg-primary text-white">
+    <h5 class="mb-0">Activity Summary</h5>
+  </div>
+  <div class="card-body">
+    @if (isLoading()) {
+    <div class="d-flex justify-content-center p-3">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    } @else {
+    <div class="row text-center">
+      <div class="col-md-4">
+        <div class="stat-item">
+          <div class="stat-value">
+            {{ statistics()?.totalCompleted || 0 }}
+          </div>
+          <div class="stat-label">Tasks Completed</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-item">
+          <div class="stat-value">
+            {{ statistics()?.dailyCompleted || 0 }}
+          </div>
+          <div class="stat-label">Daily Tasks</div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="stat-item">
+          <div class="stat-value">
+            {{ statistics()?.missionsCompleted || 0 }}
+          </div>
+          <div class="stat-label">Missions</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-3" />
+
+    <h6 class="mb-3">Recent Activity</h6>
+    @if (recentActivity().length === 0) {
+    <p class="text-muted text-center">No recent activity to display.</p>
+    } @else {
+    <div class="recent-activity">
+      @for (activity of recentActivity(); track activity.id) {
+      <div class="activity-item">
+        <div class="activity-icon">
+          <i class="bi bi-check-circle-fill text-success"></i>
+        </div>
+        <div class="activity-content">
+          <div class="activity-text">Completed: {{ activity.task.title }}</div>
+          <div class="activity-time">
+            {{ activity.completedAt | date : "medium" }}
+          </div>
+        </div>
+        <div class="activity-rewards">
+          <div class="xp-reward">+{{ activity.xpEarned }} XP</div>
+          <div class="coin-reward">+{{ activity.coinsEarned }} coins</div>
+        </div>
+      </div>
+      }
+    </div>
+
+    <div class="text-center mt-3">
+      <a routerLink="/tasks/history" class="btn btn-outline-primary btn-sm"
+        >View All Activity</a
+      >
+    </div>
+    } }
+  </div>
+</div>

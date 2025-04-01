@@ -1,74 +1,82 @@
 <div class="container py-4">
-  <h1 class="mb-4">Dashboard</h1>
+  <div class="welcome-banner p-4 mb-4 rounded bg-primary text-white shadow">
+    <h1 class="mb-2">Welcome back, {{ username }}!</h1>
+    <p class="mb-0">
+      Track your progress, complete tasks, and level up your productivity.
+    </p>
+  </div>
 
-  <div class="row">
-    <div class="col-md-8">
-      <div class="card mb-4">
-        <div class="card-body">
-          <h2 class="card-title">Welcome to TaskMaster</h2>
-          <p class="card-text">The dashboard will be implemented in Phase 4.</p>
-          <p class="card-text">
-            Here you will see your progress, tasks, and achievements.
-          </p>
-        </div>
-      </div>
+  <div class="row g-4">
+    <!-- User Stats Card -->
+    <div class="col-lg-4">
+      <app-user-stats-card></app-user-stats-card>
     </div>
 
-    <div class="col-md-4">
-      <div class="card mb-4">
-        <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">Stats</h5>
-        </div>
-        <div class="card-body">
-          <p class="card-text">Level: 1</p>
-          <p class="card-text">XP: 0/100</p>
-          <div class="progress mb-3">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              style="width: 0%"
-              aria-valuenow="0"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            ></div>
-          </div>
-          <p class="card-text">Coins: 0</p>
-        </div>
-      </div>
+    <!-- Pending Tasks Widget -->
+    <div class="col-lg-8">
+      <app-pending-tasks-widget></app-pending-tasks-widget>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col-md-4 mb-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <h3 class="card-title">Tasks</h3>
-          <p class="card-text">
-            Create and manage your daily tasks and missions
-          </p>
-          <a routerLink="/tasks" class="btn btn-primary mt-2">Go to Tasks</a>
-        </div>
-      </div>
+  <div class="row g-4 mt-1">
+    <!-- Activity Summary -->
+    <div class="col-lg-8">
+      <app-activity-summary></app-activity-summary>
     </div>
 
-    <div class="col-md-4 mb-4">
-      <div class="card h-100">
-        <div class="card-body">
-          <h3 class="card-title">Shop</h3>
-          <p class="card-text">Buy equipment to boost your productivity</p>
-          <a routerLink="/shop" class="btn btn-primary mt-2">Go to Shop</a>
+    <!-- Quick Actions Card -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm h-100">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Quick Actions</h5>
         </div>
-      </div>
-    </div>
-
-    <div class="col-md-4 mb-4">
-      <div class="card h-100">
         <div class="card-body">
-          <h3 class="card-title">Achievements</h3>
-          <p class="card-text">Unlock achievements as you progress</p>
-          <a routerLink="/achievements" class="btn btn-primary mt-2"
-            >Go to Achievements</a
-          >
+          <div class="list-group">
+            <a
+              routerLink="/tasks/new"
+              class="list-group-item list-group-item-action"
+            >
+              <div class="d-flex align-items-center">
+                <div class="action-icon bg-primary text-white">
+                  <i class="bi bi-plus-lg"></i>
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-0">Create New Task</h6>
+                  <small class="text-muted"
+                    >Add a new daily task or mission</small
+                  >
+                </div>
+              </div>
+            </a>
+            <a
+              routerLink="/shop"
+              class="list-group-item list-group-item-action"
+            >
+              <div class="d-flex align-items-center">
+                <div class="action-icon bg-success text-white">
+                  <i class="bi bi-shop"></i>
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-0">Visit Shop</h6>
+                  <small class="text-muted">Spend coins on equipment</small>
+                </div>
+              </div>
+            </a>
+            <a
+              routerLink="/achievements"
+              class="list-group-item list-group-item-action"
+            >
+              <div class="d-flex align-items-center">
+                <div class="action-icon bg-warning text-dark">
+                  <i class="bi bi-trophy"></i>
+                </div>
+                <div class="ms-3">
+                  <h6 class="mb-0">View Achievements</h6>
+                  <small class="text-muted">Check your progress</small>
+                </div>
+              </div>
+            </a>
+          </div>
         </div>
       </div>
     </div>
