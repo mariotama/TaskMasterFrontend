@@ -18,6 +18,9 @@ export const responseTransformInterceptor: HttpInterceptorFn = (req, next) => {
       if (event instanceof HttpResponse) {
         const body = event.body;
 
+        // Log all responses for debugging
+        console.log(`Response for ${req.url}:`, body);
+
         // Verify if the body has the expected structure
         if (
           body &&
@@ -31,18 +34,28 @@ export const responseTransformInterceptor: HttpInterceptorFn = (req, next) => {
           );
 
           // Extract the 'data' property
-          const unwrappedData = body.data;
+          const unwrappedData = body.data as { completions?: { task: any }[] };
 
-          // Verify if 'data' is an object or array
-          if (unwrappedData !== null && typeof unwrappedData === 'object') {
-            // Create a new response with the unwrapped data
-            return event.clone({ body: unwrappedData });
-          } else {
-            console.warn(
-              'Response data is not an object or array:',
-              unwrappedData
+          // Special handling for task completion history endpoint
+          if (
+            req.url.includes('tasks/history/completions') &&
+            unwrappedData &&
+            unwrappedData.completions
+          ) {
+            // Make sure completions have valid task data
+            const validCompletions = unwrappedData.completions.filter(
+              (c) => c && c.task
+            );
+            unwrappedData.completions = validCompletions;
+
+            console.log(
+              'Processing completions data:',
+              `Found ${validCompletions.length} valid completions`
             );
           }
+
+          // Create a new response with the unwrapped data
+          return event.clone({ body: unwrappedData });
         }
       }
 

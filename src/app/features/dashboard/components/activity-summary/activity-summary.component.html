@@ -40,17 +40,20 @@
     <hr class="my-3" />
 
     <h6 class="mb-3">Recent Activity</h6>
-    @if (recentActivity().length === 0) {
+    @if (!recentActivity() || recentActivity().length === 0) {
     <p class="text-muted text-center">No recent activity to display.</p>
     } @else {
     <div class="recent-activity">
-      @for (activity of recentActivity(); track activity.id) {
+      @for (activity of recentActivity(); track activity.id) { @if (activity &&
+      activity.task) {
       <div class="activity-item">
         <div class="activity-icon">
           <i class="bi bi-check-circle-fill text-success"></i>
         </div>
         <div class="activity-content">
-          <div class="activity-text">Completed: {{ activity.task.title }}</div>
+          <div class="activity-text">
+            Completed: {{ activity.task?.title || "Unknown Task" }}
+          </div>
           <div class="activity-time">
             {{ activity.completedAt | date : "medium" }}
           </div>
@@ -60,7 +63,7 @@
           <div class="coin-reward">+{{ activity.coinsEarned }} coins</div>
         </div>
       </div>
-      }
+      } }
     </div>
 
     <div class="text-center mt-3">

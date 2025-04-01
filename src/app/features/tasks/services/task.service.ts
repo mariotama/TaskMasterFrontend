@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { ApiService } from '../../../core/http/api.service';
-import { Observable } from 'rxjs';
-import { Task } from '../../../shared/models/task.model';
+import { Observable, catchError, map, tap } from 'rxjs';
+import { Task, TaskCompletion } from '../../../shared/models/task.model';
 import { ProgressionResult } from '../../../shared/models/progression.model';
 
 @Injectable({
@@ -31,14 +31,45 @@ export class TaskService {
   }
 
   completeTask(id: number): Observable<ProgressionResult> {
-    return this.apiService.post<ProgressionResult>(`tasks/${id}/complete`, {});
+    return this.apiService
+      .post<ProgressionResult>(`tasks/${id}/complete`, {})
+      .pipe(
+        tap((result) => console.log('Task completion result:', result)),
+        catchError((error) => {
+          console.error('Error completing task:', error);
+          throw error;
+        })
+      );
   }
 
   getTaskCompletionHistory(
     page: number = 1,
     limit: number = 10
-  ): Observable<any> {
-    return this.apiService.get('tasks/history/completions', { page, limit });
+  ): Observable<{ completions: TaskCompletion[]; total: number }> {
+    return this.apiService
+      .get<{ completions: TaskCompletion[]; total: number }>(
+        'tasks/history/completions',
+        { page, limit }
+      )
+      .pipe(
+        map((response) => {
+          // Make sure we have valid completions
+          if (response.completions) {
+            // Filter out completions with missing task data
+            response.completions = response.completions.filter(
+              (c) => c && c.task
+            );
+          } else {
+            response.completions = [];
+          }
+          return response;
+        }),
+        tap((data) => console.log('Filtered task completion history:', data)),
+        catchError((error) => {
+          console.error('Error fetching task history:', error);
+          throw error;
+        })
+      );
   }
 
   getTaskStatistics(): Observable<any> {

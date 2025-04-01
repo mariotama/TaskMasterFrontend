@@ -36,7 +36,16 @@ export class ActivitySummaryComponent implements OnInit {
       })
       .subscribe({
         next: (data) => {
-          this.recentActivity.set(data.completions || []);
+          // Ensure we have valid completions array
+          const completions = data.completions || [];
+
+          // Log the data to debug
+          console.log('Received completions data:', completions);
+
+          // Make sure we only use completions that have valid task data
+          const validCompletions = completions.filter((c) => c && c.task);
+
+          this.recentActivity.set(validCompletions);
           this.isLoading.set(false);
         },
         error: (error) => {
