@@ -146,8 +146,8 @@
           </span>
           <span
             class="badge rounded-pill"
-            [class.bg-light
-            text-dark]="item.rarity === rarities.COMMON"
+            [class.bg-light]="item.rarity === rarities.COMMON"
+            [class.text-dark]="item.rarity === rarities.COMMON"
             [class.bg-info]="item.rarity === rarities.RARE"
             [class.bg-warning]="item.rarity === rarities.EPIC"
           >
