@@ -1,31 +1,218 @@
-<div class="shop-container">
-  <header class="shop-header">
-    <h1>Equipment Shop</h1>
-    <div class="shop-nav">
-      <button class="btn btn-secondary" routerLink="/shop/inventory">
-        My Inventory
-      </button>
-      <div class="coins-display">
-        <span class="coin-icon">🪙</span>
-        <span>0 coins</span>
+<div class="container py-4">
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+      <h1 class="mb-0">Equipment Shop</h1>
+      <p class="text-muted">Purchase equipment to boost your productivity</p>
+    </div>
+    <div class="col-md-6 text-md-end">
+      <div class="d-flex justify-content-md-end align-items-center gap-3">
+        <a routerLink="/shop/inventory" class="btn btn-outline-primary">
+          <i class="bi bi-briefcase-fill me-2"></i>My Inventory
+        </a>
+        <div
+          class="wallet-display d-flex align-items-center bg-light p-2 rounded-pill"
+        >
+          <i class="bi bi-coin text-warning fs-4 me-2"></i>
+          <span class="fw-bold">{{ walletBalance() }} coins</span>
+        </div>
       </div>
     </div>
-  </header>
-
-  <div class="shop-filters">
-    <button class="filter-btn active">All Items</button>
-    <button class="filter-btn">Head</button>
-    <button class="filter-btn">Body</button>
-    <button class="filter-btn">Accessory</button>
   </div>
 
-  <div class="shop-placeholder">
-    <div class="placeholder-content">
-      <h2>Equipment Shop</h2>
-      <p>The shop will be implemented in Phase 5.</p>
-      <p>
-        Here you will be able to purchase equipment to boost your productivity.
-      </p>
+  <!-- Filter buttons -->
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'all'"
+      [class.btn-outline-primary]="currentFilter() !== 'all'"
+      (click)="applyFilter('all')"
+    >
+      All Items
+    </button>
+
+    <!-- Type filters -->
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === equipmentTypes.HEAD"
+      [class.btn-outline-primary]="currentFilter() !== equipmentTypes.HEAD"
+      (click)="applyFilter(equipmentTypes.HEAD)"
+    >
+      Head
+    </button>
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === equipmentTypes.BODY"
+      [class.btn-outline-primary]="currentFilter() !== equipmentTypes.BODY"
+      (click)="applyFilter(equipmentTypes.BODY)"
+    >
+      Body
+    </button>
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === equipmentTypes.ACCESSORY"
+      [class.btn-outline-primary]="currentFilter() !== equipmentTypes.ACCESSORY"
+      (click)="applyFilter(equipmentTypes.ACCESSORY)"
+    >
+      Accessory
+    </button>
+
+    <!-- Rarity filters -->
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === rarities.COMMON"
+      [class.btn-outline-primary]="currentFilter() !== rarities.COMMON"
+      (click)="applyFilter(rarities.COMMON)"
+    >
+      Common
+    </button>
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === rarities.RARE"
+      [class.btn-outline-primary]="currentFilter() !== rarities.RARE"
+      (click)="applyFilter(rarities.RARE)"
+    >
+      Rare
+    </button>
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === rarities.EPIC"
+      [class.btn-outline-primary]="currentFilter() !== rarities.EPIC"
+      (click)="applyFilter(rarities.EPIC)"
+    >
+      Epic
+    </button>
+  </div>
+
+  <!-- Messages -->
+  @if (errorMessage()) {
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage() }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="errorMessage.set('')"
+    ></button>
+  </div>
+  } @if (successMessage()) {
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage() }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="successMessage.set('')"
+    ></button>
+  </div>
+  }
+
+  <!-- Loading state -->
+  @if (isLoading()) {
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+  } @else {
+  <!-- Empty state -->
+  @if (filteredEquipment().length === 0) {
+  <div class="card text-center p-5">
+    <div class="mb-3">
+      <i class="bi bi-shop fs-1 text-muted"></i>
+    </div>
+    <h3>No equipment available</h3>
+    <p class="text-muted">
+      @if (currentFilter() !== 'all') { Try changing your filter or check back
+      later } @else { You've purchased all available equipment for your level! }
+    </p>
+  </div>
+  } @else {
+  <!-- Equipment grid -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @for (item of filteredEquipment(); track item.id) {
+    <div class="col">
+      <div
+        class="card h-100 equipment-card"
+        [class]="getRarityClass(item.rarity)"
+      >
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span
+            class="badge rounded-pill"
+            [class.bg-secondary]="item.type === equipmentTypes.HEAD"
+            [class.bg-primary]="item.type === equipmentTypes.BODY"
+            [class.bg-info]="item.type === equipmentTypes.ACCESSORY"
+          >
+            {{ item.type }}
+          </span>
+          <span
+            class="badge rounded-pill"
+            [class.bg-light
+            text-dark]="item.rarity === rarities.COMMON"
+            [class.bg-info]="item.rarity === rarities.RARE"
+            [class.bg-warning]="item.rarity === rarities.EPIC"
+          >
+            {{ item.rarity }}
+          </span>
+        </div>
+        <div class="card-body">
+          <div class="d-flex align-items-start mb-3">
+            <div class="equipment-icon me-3">
+              <i [class]="'bi bi-' + item.icon + ' fs-1'"></i>
+            </div>
+            <div>
+              <h5 class="card-title">{{ item.name }}</h5>
+              <p class="card-text text-muted">{{ item.description }}</p>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-container mb-3">
+            @if (item.stats.xpBonus) {
+            <div class="stat-item">
+              <i class="bi bi-star-fill text-warning"></i>
+              <span>+{{ item.stats.xpBonus }}% XP</span>
+            </div>
+            } @if (item.stats.coinBonus) {
+            <div class="stat-item">
+              <i class="bi bi-coin text-warning"></i>
+              <span>+{{ item.stats.coinBonus }}% Coins</span>
+            </div>
+            }
+          </div>
+        </div>
+        <div
+          class="card-footer d-flex justify-content-between align-items-center"
+        >
+          <div class="price-tag d-flex align-items-center">
+            <i class="bi bi-coin text-warning me-1"></i>
+            <span>{{ item.price }}</span>
+          </div>
+          <div>
+            <button
+              class="btn btn-primary btn-sm"
+              [disabled]="!canPurchase(item) || isPurchasing() === item.id"
+              (click)="purchaseItem(item.id)"
+            >
+              @if (isPurchasing() === item.id) {
+              <span
+                class="spinner-border spinner-border-sm me-1"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Buying... } @else { Purchase }
+            </button>
+
+            <!-- Level requirement badge -->
+            @if (userLevel < item.requiredLevel) {
+            <span class="badge bg-danger ms-2">
+              Requires Lvl {{ item.requiredLevel }}
+            </span>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  } }
 </div>

@@ -1,61 +1,91 @@
-.inventory-container {
-  padding: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.inventory-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-}
-
-.inventory-header h1 {
-  font-size: 2rem;
-  color: #333;
-}
-
-.inventory-tabs {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-}
-
-.tab-btn {
-  background: none;
-  border: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  cursor: pointer;
-  font-weight: 500;
-  color: #666;
-  transition: all 0.2s ease;
-}
-
-.tab-btn:hover {
-  background-color: #f0f0f0;
-}
-
-.tab-btn.active {
-  background-color: #4a6eb5;
-  color: white;
-}
-
-.inventory-placeholder {
+.stat-card {
   background-color: #f8f9fa;
   border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
 }
 
-.placeholder-content {
-  text-align: center;
+.equipment-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-header {
+    background-color: rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-footer {
+    background-color: rgba(0, 0, 0, 0.02);
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+  }
+  
+  &.equipped {
+    box-shadow: 0 0 15px rgba(40, 167, 69, 0.4);
+    
+    .card-header {
+      background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    .card-footer {
+      background-color: rgba(40, 167, 69, 0.05);
+    }
+  }
 }
 
-.placeholder-content h2 {
-  margin-bottom: 1rem;
-  color: #4a6eb5;
+.equipped-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+}
+
+.equipment-icon {
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.stats-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f8f9fa;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+// Rarity border colors
+.rarity-common {
+  border: 1px solid #ced4da;
+}
+
+.rarity-rare {
+  border: 2px solid #4a90e2;
+  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+}
+
+.rarity-epic {
+  border: 2px solid #9b59b6;
+  box-shadow: 0 0 12px rgba(155, 89, 182, 0.4);
 }

@@ -1,25 +1,254 @@
-<div class="inventory-container">
-  <header class="inventory-header">
-    <h1>My Inventory</h1>
-    <button class="btn btn-secondary" routerLink="/shop">Back to Shop</button>
-  </header>
-
-  <div class="inventory-tabs">
-    <button class="tab-btn active">All Items</button>
-    <button class="tab-btn">Equipped</button>
-    <button class="tab-btn">Head</button>
-    <button class="tab-btn">Body</button>
-    <button class="tab-btn">Accessory</button>
-  </div>
-
-  <div class="inventory-placeholder">
-    <div class="placeholder-content">
-      <h2>Inventory Management</h2>
-      <p>The inventory will be implemented in Phase 5.</p>
-      <p>
-        Here you will be able to see your purchased equipment and equip/unequip
-        items.
-      </p>
+<div class="container py-4">
+  <div class="row mb-4 align-items-center">
+    <div class="col-md-6">
+      <h1 class="mb-0">My Inventory</h1>
+      <p class="text-muted">Manage your equipment and bonuses</p>
+    </div>
+    <div class="col-md-6 text-md-end">
+      <a routerLink="/shop" class="btn btn-outline-primary">
+        <i class="bi bi-shop me-2"></i>Back to Shop
+      </a>
     </div>
   </div>
+
+  <!-- Stats Card -->
+  @if (equipmentStats()) {
+  <div class="card mb-4 shadow-sm">
+    <div class="card-body">
+      <h5 class="card-title">Equipment Bonuses</h5>
+      <div class="row mt-3">
+        <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+          <div class="stat-card text-center p-3 h-100">
+            <div class="mb-2">
+              <i class="bi bi-star-fill text-warning fs-3"></i>
+            </div>
+            <h3 class="mb-0">+{{ equipmentStats()?.xpBonus || 0 }}%</h3>
+            <div class="small text-muted">XP Bonus</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 mb-3 mb-lg-0">
+          <div class="stat-card text-center p-3 h-100">
+            <div class="mb-2"><i class="bi bi-coin text-warning fs-3"></i></div>
+            <h3 class="mb-0">+{{ equipmentStats()?.coinBonus || 0 }}%</h3>
+            <div class="small text-muted">Coin Bonus</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3 mb-3 mb-sm-0">
+          <div class="stat-card text-center p-3 h-100">
+            <div class="mb-2">
+              <i class="bi bi-box-seam text-primary fs-3"></i>
+            </div>
+            <h3 class="mb-0">{{ inventory().length }}</h3>
+            <div class="small text-muted">Total Items</div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-3">
+          <div class="stat-card text-center p-3 h-100">
+            <div class="mb-2">
+              <i class="bi bi-shield-check text-success fs-3"></i>
+            </div>
+            <h3 class="mb-0">{{ equipmentStats()?.equippedItems || 0 }}/3</h3>
+            <div class="small text-muted">Equipped Items</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  }
+
+  <!-- Filter buttons -->
+  <div class="d-flex flex-wrap gap-2 mb-4">
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'all'"
+      [class.btn-outline-primary]="currentFilter() !== 'all'"
+      (click)="applyFilter('all')"
+    >
+      All Items
+    </button>
+
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === 'equipped'"
+      [class.btn-outline-primary]="currentFilter() !== 'equipped'"
+      (click)="applyFilter('equipped')"
+    >
+      Equipped
+    </button>
+
+    <!-- Type filters -->
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === equipmentTypes.HEAD"
+      [class.btn-outline-primary]="currentFilter() !== equipmentTypes.HEAD"
+      (click)="applyFilter(equipmentTypes.HEAD)"
+    >
+      Head
+    </button>
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === equipmentTypes.BODY"
+      [class.btn-outline-primary]="currentFilter() !== equipmentTypes.BODY"
+      (click)="applyFilter(equipmentTypes.BODY)"
+    >
+      Body
+    </button>
+    <button
+      class="btn"
+      [class.btn-primary]="currentFilter() === equipmentTypes.ACCESSORY"
+      [class.btn-outline-primary]="currentFilter() !== equipmentTypes.ACCESSORY"
+      (click)="applyFilter(equipmentTypes.ACCESSORY)"
+    >
+      Accessory
+    </button>
+  </div>
+
+  <!-- Messages -->
+  @if (errorMessage()) {
+  <div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ errorMessage() }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="errorMessage.set('')"
+    ></button>
+  </div>
+  } @if (successMessage()) {
+  <div class="alert alert-success alert-dismissible fade show" role="alert">
+    {{ successMessage() }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="successMessage.set('')"
+    ></button>
+  </div>
+  }
+
+  <!-- Loading state -->
+  @if (isLoading()) {
+  <div class="d-flex justify-content-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+  } @else {
+  <!-- Empty state -->
+  @if (filteredInventory().length === 0) {
+  <div class="card text-center p-5">
+    <div class="mb-3">
+      <i class="bi bi-briefcase fs-1 text-muted"></i>
+    </div>
+    <h3>No items in your inventory</h3>
+    <p class="text-muted">
+      @if (currentFilter() !== 'all') { Try changing your filter } @else { Visit
+      the shop to purchase some equipment! }
+    </p>
+    <div class="mt-3">
+      <a routerLink="/shop" class="btn btn-primary">Go to Shop</a>
+    </div>
+  </div>
+  } @else {
+  <!-- Inventory grid -->
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    @for (item of filteredInventory(); track item.id) {
+    <div class="col">
+      <div
+        class="card h-100 equipment-card"
+        [class]="getRarityClass(item.equipment.rarity)"
+        [class.equipped]="item.isEquipped"
+      >
+        <div
+          class="card-header d-flex justify-content-between align-items-center"
+        >
+          <span
+            class="badge rounded-pill"
+            [class.bg-secondary]="item.equipment.type === equipmentTypes.HEAD"
+            [class.bg-primary]="item.equipment.type === equipmentTypes.BODY"
+            [class.bg-info]="item.equipment.type === equipmentTypes.ACCESSORY"
+          >
+            {{ item.equipment.type }}
+          </span>
+          <span
+            class="badge rounded-pill"
+            [class.bg-light
+            text-dark]="item.equipment.rarity === rarities.COMMON"
+            [class.bg-info]="item.equipment.rarity === rarities.RARE"
+            [class.bg-warning]="item.equipment.rarity === rarities.EPIC"
+          >
+            {{ item.equipment.rarity }}
+          </span>
+        </div>
+        <div class="card-body">
+          @if (item.isEquipped) {
+          <div class="equipped-badge">
+            <span class="badge bg-success">Equipped</span>
+          </div>
+          }
+          <div class="d-flex align-items-start mb-3">
+            <div class="equipment-icon me-3">
+              <i [class]="'bi bi-' + item.equipment.icon + ' fs-1'"></i>
+            </div>
+            <div>
+              <h5 class="card-title">{{ item.equipment.name }}</h5>
+              <p class="card-text text-muted">
+                Acquired: {{ item.acquiredAt | date }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Stats -->
+          <div class="stats-container mb-3">
+            @if (item.equipment.stats.xpBonus) {
+            <div class="stat-item">
+              <i class="bi bi-star-fill text-warning"></i>
+              <span>+{{ item.equipment.stats.xpBonus }}% XP</span>
+            </div>
+            } @if (item.equipment.stats.coinBonus) {
+            <div class="stat-item">
+              <i class="bi bi-coin text-warning"></i>
+              <span>+{{ item.equipment.stats.coinBonus }}% Coins</span>
+            </div>
+            }
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="d-grid">
+            @if (!item.isEquipped) {
+            <button
+              class="btn btn-primary"
+              [disabled]="isUpdating() === item.id"
+              (click)="equipItem(item.id)"
+            >
+              @if (isUpdating() === item.id) {
+              <span
+                class="spinner-border spinner-border-sm me-1"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Equipping... } @else {
+              <i class="bi bi-shield-plus me-1"></i> Equip }
+            </button>
+            } @else {
+            <button
+              class="btn btn-outline-primary"
+              [disabled]="isUpdating() === item.id"
+              (click)="unequipItem(item.id)"
+            >
+              @if (isUpdating() === item.id) {
+              <span
+                class="spinner-border spinner-border-sm me-1"
+                role="status"
+                aria-hidden="true"
+              ></span>
+              Unequipping... } @else {
+              <i class="bi bi-shield-minus me-1"></i> Unequip }
+            </button>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+  } }
 </div>

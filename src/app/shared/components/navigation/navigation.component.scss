@@ -115,3 +115,23 @@
   background-color: #4a6eb5;
   color: white;
 }
+
+.wallet-display {
+  background-color: #f8f9fa;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border-radius: 20px;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  align-items: center;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  i {
+    font-size: 1.1rem;
+    color: #ffc107;
+    margin-right: 0.35rem;
+  }
+}
