@@ -1,0 +1,313 @@
+// src/app/features/tasks/components/task-complete/task-complete.component.scss
+.reward-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.75);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fade-in 0.3s ease-in-out;
+}
+
+.reward-modal {
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  overflow: hidden;
+  animation: scale-in 0.4s ease-out;
+}
+
+.reward-header {
+  background-color: #4a6eb5;
+  color: white;
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.reward-title {
+  margin: 0;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.reward-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.reward-body {
+  padding: 1.5rem;
+}
+
+.task-name {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.rewards-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.reward-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease;
+  
+  &.animate {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  &.complete {
+    .reward-icon {
+      animation: none;
+    }
+  }
+}
+
+.reward-icon-container {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.reward-icon {
+  font-size: 2.5rem;
+  animation: pulse 1s infinite alternate;
+  
+  &.bi-coin {
+    color: #ffc107;
+  }
+  
+  &.bi-star {
+    color: #4a6eb5;
+  }
+}
+
+.reward-value {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.reward-label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+// Progress bar
+.progress-section {
+  margin: 2rem 0;
+  opacity: 0;
+  animation: fade-in 0.5s ease forwards;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.progress-label {
+  font-weight: 600;
+  color: #4a6eb5;
+}
+
+.progress-values {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.progress-bar {
+  height: 10px;
+  background-color: #e9ecef;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: #4a6eb5;
+  border-radius: 5px;
+  transition: width 1s ease;
+}
+
+.next-level {
+  text-align: right;
+  font-size: 0.8rem;
+  color: #888;
+}
+
+// Achievements
+.achievements-section {
+  margin: 2rem 0;
+  opacity: 0;
+  animation: fade-in 0.5s ease 0.3s forwards;
+}
+
+.achievements-title {
+  text-align: center;
+  color: #28a745;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.achievements-list {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.achievement-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+  
+  &:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+}
+
+.achievement-icon {
+  font-size: 1.5rem;
+  color: #ffc107;
+  margin-right: 1rem;
+}
+
+.achievement-details {
+  flex: 1;
+}
+
+.achievement-name {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.achievement-description {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+// Continue button
+.continue-button {
+  display: block;
+  margin: 0 auto;
+  background-color: #4a6eb5;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  opacity: 0;
+  transform: translateY(20px);
+  
+  &:hover {
+    background-color: darken(#4a6eb5, 10%);
+    transform: translateY(0);
+  }
+  
+  &.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// Particles
+.coin-particles, .xp-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.coin-particles .particle {
+  background-color: #ffc107;
+  animation: particle-explosion 1s ease forwards;
+}
+
+.xp-particles .particle {
+  background-color: #4a6eb5;
+  animation: particle-explosion 1s ease forwards;
+}
+
+.p1 { top: 10%; left: 10%; animation-delay: 0.1s; }
+.p2 { top: 10%; right: 10%; animation-delay: 0.2s; }
+.p3 { bottom: 10%; left: 10%; animation-delay: 0.3s; }
+.p4 { bottom: 10%; right: 10%; animation-delay: 0.4s; }
+.p5 { top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 0.5s; }
+
+// Animations
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes scale-in {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
+}
+
+@keyframes particle-explosion {
+  0% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(
+      calc(50px * cos(var(--angle, 0deg))),
+      calc(50px * sin(var(--angle, 90deg)))
+    );
+    opacity: 0;
+  }
+}
+
+.p1 { --angle: 45deg; }
+.p2 { --angle: 135deg; }
+.p3 { --angle: 225deg; }
+.p4 { --angle: 315deg; }
+.p5 { --angle: 0deg; }

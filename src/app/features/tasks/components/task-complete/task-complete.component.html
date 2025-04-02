@@ -1,0 +1,109 @@
+<div class="reward-overlay" *ngIf="showModal">
+  <div class="reward-modal">
+    <div class="reward-header">
+      <h2 class="reward-title">Task Completed!</h2>
+      <button class="reward-close" (click)="close()">×</button>
+    </div>
+
+    <div class="reward-body">
+      <h3 class="task-name">{{ taskName }}</h3>
+
+      <div class="rewards-container">
+        <!-- Coins Reward -->
+        <div
+          class="reward-item"
+          [class.animate]="true"
+          [class.complete]="coinAnimationComplete"
+        >
+          <div class="reward-icon-container">
+            <i class="bi bi-coin reward-icon"></i>
+            <div class="coin-particles">
+              <div class="particle p1"></div>
+              <div class="particle p2"></div>
+              <div class="particle p3"></div>
+              <div class="particle p4"></div>
+              <div class="particle p5"></div>
+            </div>
+          </div>
+          <div class="reward-value">+{{ result.coinsGained }}</div>
+          <div class="reward-label">Coins</div>
+        </div>
+
+        <!-- XP Reward -->
+        <div
+          class="reward-item"
+          [class.animate]="coinAnimationComplete"
+          [class.complete]="xpAnimationComplete"
+        >
+          <div class="reward-icon-container">
+            <i class="bi bi-star reward-icon"></i>
+            <div class="xp-particles">
+              <div class="particle p1"></div>
+              <div class="particle p2"></div>
+              <div class="particle p3"></div>
+              <div class="particle p4"></div>
+              <div class="particle p5"></div>
+            </div>
+          </div>
+          <div class="reward-value">+{{ result.xpGained }}</div>
+          <div class="reward-label">XP</div>
+        </div>
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="progress-section" *ngIf="xpAnimationComplete">
+        <div class="progress-header">
+          <div class="progress-label">Level {{ result.currentLevel }}</div>
+          <div class="progress-values">
+            {{ result.currentXp }} / {{ result.xpToNextLevel }} XP
+          </div>
+        </div>
+
+        <div class="progress-bar">
+          <div
+            class="progress-fill"
+            [style.width.%]="(result.currentXp / result.xpToNextLevel) * 100"
+          ></div>
+        </div>
+
+        <div class="next-level">Next: Level {{ result.currentLevel + 1 }}</div>
+      </div>
+
+      <!-- Achievements (if any) -->
+      <div
+        class="achievements-section"
+        *ngIf="
+          result.unlockedAchievements &&
+          result.unlockedAchievements.length > 0 &&
+          xpAnimationComplete
+        "
+      >
+        <h4 class="achievements-title">Achievements Unlocked!</h4>
+
+        <div class="achievements-list">
+          <div
+            class="achievement-item"
+            *ngFor="let achievement of result.unlockedAchievements"
+          >
+            <i class="bi bi-trophy achievement-icon"></i>
+            <div class="achievement-details">
+              <div class="achievement-name">{{ achievement.name }}</div>
+              <div class="achievement-description">
+                {{ achievement.description }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Continue Button -->
+      <button
+        class="continue-button"
+        [class.show]="xpAnimationComplete"
+        (click)="close()"
+      >
+        Continue
+      </button>
+    </div>
+  </div>
+</div>

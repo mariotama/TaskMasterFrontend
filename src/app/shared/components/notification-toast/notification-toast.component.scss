@@ -1,0 +1,172 @@
+.notification-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 350px;
+}
+
+.notification-toast {
+  display: flex;
+  align-items: flex-start;
+  padding: 12px 15px;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  background-color: white;
+  margin-bottom: 8px;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  overflow: hidden;
+  max-width: 100%;
+  
+  &.notification-enter {
+    animation: slideIn 0.3s forwards;
+  }
+  
+  &.notification-show {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  
+  &.notification-exit {
+    animation: slideOut 0.3s forwards;
+  }
+}
+
+.notification-icon {
+  margin-right: 12px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-content {
+  flex-grow: 1;
+}
+
+.notification-message {
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  color: #999;
+  padding: 0 5px;
+  align-self: flex-start;
+  margin: -5px -5px 0 0;
+  
+  &:hover {
+    color: #333;
+  }
+}
+
+// Type-specific styles
+.notification-success {
+  border-left: 4px solid #28a745;
+  
+  .notification-icon {
+    color: #28a745;
+  }
+}
+
+.notification-error {
+  border-left: 4px solid #dc3545;
+  
+  .notification-icon {
+    color: #dc3545;
+  }
+}
+
+.notification-warning {
+  border-left: 4px solid #ffc107;
+  
+  .notification-icon {
+    color: #ffc107;
+  }
+}
+
+.notification-info {
+  border-left: 4px solid #17a2b8;
+  
+  .notification-icon {
+    color: #17a2b8;
+  }
+}
+
+// Animations
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+}
+
+// Special animation classes for different notification types
+.animate-success {
+  animation: successPulse 1s ease;
+}
+
+.animate-error {
+  animation: errorShake 0.5s ease;
+}
+
+.animate-warning {
+  animation: warningBlink 1s ease;
+}
+
+.animate-info {
+  animation: infoPop 0.5s ease;
+}
+
+@keyframes successPulse {
+  0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
+}
+
+@keyframes errorShake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(5px); }
+  50% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes warningBlink {
+  0% { opacity: 1; }
+  25% { opacity: 0.5; }
+  50% { opacity: 1; }
+  75% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+@keyframes infoPop {
+  0% { transform: scale(0.8); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}

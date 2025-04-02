@@ -1,57 +1,98 @@
-/* task-detail.component.scss */
-.reward-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
-  z-index: 1000;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: fadeIn 0.3s ease-in-out;
-}
-
-.reward-modal {
-  width: 90%;
-  max-width: 500px;
-  animation: scaleIn 0.4s ease-out;
-}
-
-.reward-icons {
-  display: flex;
-  justify-content: center;
-  gap: 3rem;
-}
-
 .reward-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
 }
 
-.reward-value {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-top: 0.5rem;
+.complete-button {
+  position: relative;
+  transition: all 0.3s ease;
+  overflow: hidden;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg, 
+      rgba(255, 255, 255, 0) 0%, 
+      rgba(255, 255, 255, 0.2) 50%, 
+      rgba(255, 255, 255, 0) 100%
+    );
+    transition: all 0.6s ease;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
 }
 
-.level-up-message {
-  animation: pulse 1s infinite alternate;
+// Card styles
+.card {
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+.card-header {
+  background-color: rgba(0, 0, 0, 0.03);
+  padding: 1rem 1.5rem;
 }
 
-@keyframes scaleIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  100% { transform: scale(1); opacity: 1; }
+.card-title {
+  color: #333;
+  font-weight: 600;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+// Badge animations for completed tasks
+.badge.bg-success {
+  animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.05); }
+  0% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(40, 167, 69, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(40, 167, 69, 0);
+  }
+}
+
+// Back button effect
+a.btn-outline-primary {
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateX(-5px);
+  }
+  
+  i {
+    transition: all 0.3s ease;
+  }
+  
+  &:hover i {
+    transform: translateX(-3px);
+  }
 }

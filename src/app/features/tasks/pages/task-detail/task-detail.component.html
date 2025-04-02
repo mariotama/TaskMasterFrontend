@@ -1,4 +1,3 @@
-<!-- task-detail.component.html -->
 <div class="container py-4">
   @if (isLoading()) {
   <div class="d-flex justify-content-center my-5">
@@ -40,15 +39,15 @@
 
       <div class="row mb-4">
         <div class="col-md-6">
-          <div class="card bg-light">
+          <div class="card bg-light h-100">
             <div class="card-body">
               <h5 class="card-title">Rewards</h5>
               <div class="d-flex align-items-center">
-                <div class="me-4">
+                <div class="reward-item me-4">
                   <i class="bi bi-star-fill text-warning fs-3"></i>
                   <span class="ms-2 fs-5">{{ task()?.xpReward }} XP</span>
                 </div>
-                <div>
+                <div class="reward-item">
                   <i class="bi bi-coin text-warning fs-3"></i>
                   <span class="ms-2 fs-5">{{ task()?.coinReward }} coins</span>
                 </div>
@@ -59,11 +58,11 @@
 
         @if (task()?.dueDate) {
         <div class="col-md-6">
-          <div class="card bg-light">
+          <div class="card bg-light h-100">
             <div class="card-body">
               <h5 class="card-title">Due Date</h5>
               <p class="card-text">
-                <i class="bi bi-calendar-event"></i>
+                <i class="bi bi-calendar-event me-2"></i>
                 {{ task()?.dueDate | date : "mediumDate" }}
               </p>
             </div>
@@ -87,7 +86,7 @@
         @if (!task()?.isCompleted) {
         <button
           (click)="completeTask()"
-          class="btn btn-success"
+          class="btn btn-success complete-button"
           [disabled]="isCompleting()"
         >
           @if (isCompleting()) {
@@ -104,57 +103,14 @@
     </div>
   </div>
 
-  <!-- Rewards Modal/Overlay -->
+  <!-- Task Complete Animation Component -->
   @if (showReward() && progressionResult()) {
-  <div class="reward-overlay">
-    <div class="reward-modal">
-      <div class="card">
-        <div class="card-header bg-success text-white text-center">
-          <h3 class="mb-0">Task Completed!</h3>
-        </div>
-        <div class="card-body text-center">
-          <div class="reward-icons mb-4">
-            <div class="reward-item">
-              <i class="bi bi-star-fill text-warning display-1"></i>
-              <span class="reward-value"
-                >+{{ progressionResult()?.xpGained }} XP</span
-              >
-            </div>
-            <div class="reward-item">
-              <i class="bi bi-coin text-warning display-1"></i>
-              <span class="reward-value"
-                >+{{ progressionResult()?.coinsGained }} coins</span
-              >
-            </div>
-          </div>
-
-          @if (progressionResult()?.leveledUp) {
-          <div class="level-up-message mb-4">
-            <h4 class="text-success">LEVEL UP!</h4>
-            <p class="fs-5">
-              You are now level {{ progressionResult()?.currentLevel }}!
-            </p>
-          </div>
-          } @if (progressionResult()?.unlockedAchievements?.length) {
-          <div class="achievements-unlocked mb-4">
-            <h4>Achievements Unlocked!</h4>
-            <ul class="list-group">
-              @for (achievement of progressionResult()?.unlockedAchievements;
-              track achievement.id) {
-              <li class="list-group-item">
-                <i class="bi bi-trophy-fill text-warning me-2"></i>
-                {{ achievement.name }}
-              </li>
-              }
-            </ul>
-          </div>
-          }
-
-          <p class="text-muted">Redirecting to task list in 5 seconds...</p>
-        </div>
-      </div>
-    </div>
-  </div>
+  <app-task-complete
+    [result]="progressionResult()!"
+    [taskName]="task()?.title || 'Task'"
+    (close)="onRewardClosed()"
+  >
+  </app-task-complete>
   } } @else {
   <div class="alert alert-warning">Task not found.</div>
   }

@@ -1,0 +1,55 @@
+<div
+  class="card achievement-card h-100"
+  [class.achievement-locked]="!achievement.isUnlocked"
+  [class.achievement-unlocked]="achievement.isUnlocked"
+  [class.achievement-newly-unlocked]="isNewlyUnlocked"
+  [ngClass]="getTypeClass()"
+>
+  <div class="achievement-icon-wrapper">
+    <div class="achievement-icon">
+      <i [class]="'bi bi-' + getIconClass()"></i>
+    </div>
+  </div>
+
+  <div class="card-body">
+    <h5 class="card-title achievement-title">
+      {{ achievement.name }}
+      @if (isNewlyUnlocked) {
+      <span class="badge bg-success achievement-new-badge">NEW</span>
+      }
+    </h5>
+
+    <p class="card-text achievement-description">
+      {{ achievement.description }}
+    </p>
+
+    <div class="achievement-status">
+      @if (achievement.isUnlocked) {
+      <div class="d-flex align-items-center">
+        <span class="badge bg-success achievement-status-badge">
+          <i class="bi bi-unlock-fill me-1"></i> Unlocked
+        </span>
+        @if (achievement.unlockedAt) {
+        <small
+          class="text-muted ms-2"
+          [ngbTooltip]="achievement.unlockedAt | date : 'medium'"
+        >
+          {{ timeAgo }}
+        </small>
+        }
+      </div>
+      } @else {
+      <div class="achievement-locked-status">
+        <span class="badge bg-secondary achievement-status-badge">
+          <i class="bi bi-lock-fill me-1"></i> Locked
+        </span>
+      </div>
+      }
+    </div>
+  </div>
+
+  <!-- Achievement glow animation effect for newly unlocked achievements -->
+  @if (isNewlyUnlocked) {
+  <div class="achievement-glow-effect"></div>
+  }
+</div>
