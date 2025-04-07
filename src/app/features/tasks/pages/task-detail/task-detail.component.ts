@@ -36,23 +36,18 @@ export class TaskDetailComponent implements OnInit {
     );
 
     if (id) {
-      this.loadTask(parseInt(id, 10), isComplete);
+      this.loadTask(parseInt(id, 10));
     } else {
       this.errorMessage.set('Task ID not provided');
       this.isLoading.set(false);
     }
   }
 
-  loadTask(id: number, autoComplete: boolean = false): void {
+  loadTask(id: number): void {
     this.taskService.getTaskById(id).subscribe({
       next: (data) => {
         this.task.set(data);
         this.isLoading.set(false);
-
-        // If this is a complete URL and the task is not already completed, complete it
-        if (autoComplete && !data.isCompleted) {
-          this.completeTask();
-        }
       },
       error: (error) => {
         console.error('Error loading task', error);

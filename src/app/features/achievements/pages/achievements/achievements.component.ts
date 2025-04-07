@@ -10,13 +10,7 @@ import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-achievements',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    AchievementCardComponent,
-    AchievementFilterPipe,
-    NgbTooltip,
-  ],
+  imports: [CommonModule, AchievementCardComponent, AchievementFilterPipe],
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.scss'],
 })

@@ -54,52 +54,12 @@
   line-height: 1.4;
 }
 
-.notification-close {
-  background: none;
-  border: none;
-  font-size: 18px;
-  line-height: 1;
-  cursor: pointer;
-  color: #999;
-  padding: 0 5px;
-  align-self: flex-start;
-  margin: -5px -5px 0 0;
-  
-  &:hover {
-    color: #333;
-  }
-}
-
 // Type-specific styles
 .notification-success {
   border-left: 4px solid #28a745;
   
   .notification-icon {
     color: #28a745;
-  }
-}
-
-.notification-error {
-  border-left: 4px solid #dc3545;
-  
-  .notification-icon {
-    color: #dc3545;
-  }
-}
-
-.notification-warning {
-  border-left: 4px solid #ffc107;
-  
-  .notification-icon {
-    color: #ffc107;
-  }
-}
-
-.notification-info {
-  border-left: 4px solid #17a2b8;
-  
-  .notification-icon {
-    color: #17a2b8;
   }
 }
 
@@ -124,49 +84,4 @@
     transform: translateX(120%);
     opacity: 0;
   }
-}
-
-// Special animation classes for different notification types
-.animate-success {
-  animation: successPulse 1s ease;
-}
-
-.animate-error {
-  animation: errorShake 0.5s ease;
-}
-
-.animate-warning {
-  animation: warningBlink 1s ease;
-}
-
-.animate-info {
-  animation: infoPop 0.5s ease;
-}
-
-@keyframes successPulse {
-  0% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0.7); }
-  70% { box-shadow: 0 0 0 10px rgba(40, 167, 69, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(40, 167, 69, 0); }
-}
-
-@keyframes errorShake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(5px); }
-  50% { transform: translateX(-5px); }
-  75% { transform: translateX(5px); }
-  100% { transform: translateX(0); }
-}
-
-@keyframes warningBlink {
-  0% { opacity: 1; }
-  25% { opacity: 0.5; }
-  50% { opacity: 1; }
-  75% { opacity: 0.5; }
-  100% { opacity: 1; }
-}
-
-@keyframes infoPop {
-  0% { transform: scale(0.8); }
-  50% { transform: scale(1.05); }
-  100% { transform: scale(1); }
 }

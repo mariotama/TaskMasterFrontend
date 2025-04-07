@@ -23,31 +23,4 @@ export class NotificationToastComponent implements OnInit {
       this.notifications = notifications;
     });
   }
-
-  /**
-   * Close a notification
-   */
-  close(id: number): void {
-    // Filter out the notification (the service handles DOM removal)
-    this.notifications = this.notifications.filter(
-      (notification) => notification.id !== id
-    );
-  }
-
-  /**
-   * Get animation class based on notification type
-   */
-  getAnimationClass(type: string): string {
-    switch (type) {
-      case 'success':
-        return 'animate-success';
-      case 'error':
-        return 'animate-error';
-      case 'warning':
-        return 'animate-warning';
-      case 'info':
-      default:
-        return 'animate-info';
-    }
-  }
 }

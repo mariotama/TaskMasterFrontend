@@ -5,7 +5,6 @@
     [ngClass]="'notification-' + notification.type"
     [class.notification-show]="true"
     [class.notification-enter]="true"
-    [id]="'notification-' + notification.id"
   >
     <div class="notification-icon">
       <i class="bi" [ngClass]="'bi-' + notification.icon"></i>
@@ -14,14 +13,6 @@
     <div class="notification-content">
       <div class="notification-message">{{ notification.message }}</div>
     </div>
-
-    <button
-      type="button"
-      class="notification-close"
-      (click)="close(notification.id)"
-    >
-      <i class="bi bi-x"></i>
-    </button>
   </div>
   }
 </div>
