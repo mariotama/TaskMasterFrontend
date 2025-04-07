@@ -73,13 +73,6 @@ export class TaskDetailComponent implements OnInit {
 
         // Show completion rewards overlay
         this.showReward.set(true);
-
-        // After 6 seconds, redirect back to task list if they haven't closed the modal
-        setTimeout(() => {
-          if (this.showReward()) {
-            this.closeRewardAndNavigate();
-          }
-        }, 6000);
       },
       error: (error) => {
         console.error('Error completing task', error);

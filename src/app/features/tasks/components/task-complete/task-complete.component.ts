@@ -1,6 +1,12 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
 import { ProgressionResult } from '../../../../shared/models/progression.model';
 import { NotificationService } from '../../../../shared/services/notification.service';
 
@@ -16,6 +22,7 @@ export class TaskCompleteComponent implements OnInit {
 
   @Input() result!: ProgressionResult;
   @Input() taskName: string = '';
+  @Output() close = new EventEmitter<void>();
 
   showModal = false;
   coinAnimationComplete = false;
@@ -74,7 +81,8 @@ export class TaskCompleteComponent implements OnInit {
     }
   }
 
-  close(): void {
+  onClose(): void {
     this.showModal = false;
+    this.close.emit(); // Emit the close event to parent
   }
 }

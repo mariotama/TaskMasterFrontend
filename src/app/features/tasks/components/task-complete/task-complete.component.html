@@ -2,7 +2,7 @@
   <div class="reward-modal">
     <div class="reward-header">
       <h2 class="reward-title">Task Completed!</h2>
-      <button class="reward-close" (click)="close()">×</button>
+      <button class="reward-close" (click)="onClose()">×</button>
     </div>
 
     <div class="reward-body">
@@ -100,7 +100,7 @@
       <button
         class="continue-button"
         [class.show]="xpAnimationComplete"
-        (click)="close()"
+        (click)="onClose()"
       >
         Continue
       </button>

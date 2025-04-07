@@ -108,7 +108,7 @@
   <app-task-complete
     [result]="progressionResult()!"
     [taskName]="task()?.title || 'Task'"
-    (close)="onRewardClosed()"
+    (close)="closeRewardAndNavigate()"
   >
   </app-task-complete>
   } } @else {
