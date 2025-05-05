@@ -60,7 +60,7 @@ export class TaskFormComponent implements OnInit {
         5,
         [Validators.required, Validators.min(0), Validators.max(50)],
       ],
-      dueDate: [''],
+      dueDate: [null],
     });
   }
 
