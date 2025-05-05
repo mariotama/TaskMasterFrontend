@@ -1,8 +1,5 @@
 @use 'variables' as vars;
 
-// This file will be expanded in Phase 7 to support full theme switching
-// For now it contains minimal theme variables
-
 :root {
   // Base colors
   --color-primary: #{vars.$primary-color};

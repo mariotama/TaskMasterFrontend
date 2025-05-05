@@ -1,4 +1,3 @@
-// src/app/store/auth/auth.effects.ts
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';

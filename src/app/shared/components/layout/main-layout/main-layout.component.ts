@@ -1,4 +1,3 @@
-// src/app/shared/components/layout/main-layout.component.ts
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { NavigationComponent } from '../../navigation/navigation.component';

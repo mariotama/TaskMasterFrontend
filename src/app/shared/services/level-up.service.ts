@@ -1,4 +1,3 @@
-// src/app/shared/services/level-up.service.ts
 import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 

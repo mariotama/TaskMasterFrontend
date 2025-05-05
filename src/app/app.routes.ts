@@ -1,4 +1,3 @@
-// src/app/app.routes.ts
 import { Routes } from '@angular/router';
 import { MainLayoutComponent } from './shared/components/layout/main-layout/main-layout.component';
 import { authGuard } from './core/auth/auth.guard';
