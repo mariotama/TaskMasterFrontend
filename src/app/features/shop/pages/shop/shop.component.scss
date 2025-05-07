@@ -29,14 +29,6 @@
   }
 }
 
-.equipment-icon {
-  width: 50px;
-  height: 50px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .stats-container {
   display: flex;
   flex-wrap: wrap;
@@ -58,17 +50,34 @@
   font-size: 1.1rem;
 }
 
-// Rarity border colors
-.rarity-common {
+.equipment-image {
+  flex-shrink: 0;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: 8px;
+  overflow: hidden;
+  
+  img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.rarity-common .equipment-image {
   border: 1px solid #ced4da;
 }
 
-.rarity-rare {
-  border: 2px solid #4a90e2;
-  box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+.rarity-rare .equipment-image {
+  border: 1px solid #4a90e2;
+  box-shadow: 0 0 5px rgba(74, 144, 226, 0.3);
 }
 
-.rarity-epic {
-  border: 2px solid #9b59b6;
-  box-shadow: 0 0 12px rgba(155, 89, 182, 0.4);
+.rarity-epic .equipment-image {
+  border: 1px solid #9b59b6;
+  box-shadow: 0 0 8px rgba(255, 228, 25, 0.4);
 }

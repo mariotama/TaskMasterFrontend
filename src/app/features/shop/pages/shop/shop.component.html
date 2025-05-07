@@ -156,11 +156,17 @@
         </div>
         <div class="card-body">
           <div class="d-flex align-items-start mb-3">
-            <div class="equipment-icon me-3">
-              <i [class]="'bi bi-' + item.icon + ' fs-1'"></i>
+            <div class="equipment-image me-3">
+              <img
+                [src]="item.icon"
+                alt="{{ item.name }}"
+                class="img-fluid rounded"
+                width="60"
+                height="60"
+              />
             </div>
             <div>
-              <h5 class="card-title">{{ item.name }}</h5>
+              <h5 class="card-title mb-1">{{ item.name }}</h5>
               <p class="card-text text-muted">{{ item.description }}</p>
             </div>
           </div>
@@ -185,7 +191,7 @@
         >
           <div class="price-tag d-flex align-items-center">
             <i class="bi bi-coin text-warning me-1"></i>
-            <span>{{ item.price }}</span>
+            <span class="fw-bold">{{ item.price }}</span>
           </div>
           <div>
             <button
@@ -199,7 +205,8 @@
                 role="status"
                 aria-hidden="true"
               ></span>
-              Buying... } @else { Purchase }
+              Buying... } @else {
+              <i class="bi bi-bag-plus me-1"></i> Purchase }
             </button>
 
             <!-- Level requirement badge -->
