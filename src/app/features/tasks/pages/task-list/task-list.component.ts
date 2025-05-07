@@ -3,7 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '../../../../core/http/api.service';
-import { Task, TaskType } from '../../../../shared/models/task.model';
+import {
+  Task,
+  TaskCompletion,
+  TaskType,
+} from '../../../../shared/models/task.model';
 import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
@@ -22,6 +26,8 @@ export class TaskListComponent implements OnInit {
   isLoading = signal(true);
   currentFilter = signal('all');
 
+  completedTodayIds: number[] = [];
+
   ngOnInit(): void {
     // Only load tasks if authenticated
     if (this.authService.isAuthenticated()) {
@@ -35,6 +41,7 @@ export class TaskListComponent implements OnInit {
         }
       });
     }
+    this.fetchCompletedToday();
   }
 
   loadTasks(): void {
@@ -84,5 +91,34 @@ export class TaskListComponent implements OnInit {
         error: (error) => console.error('Error deleting task', error),
       });
     }
+  }
+
+  fetchCompletedToday(): void {
+    this.apiService
+      .get<{ completions: TaskCompletion[] }>('tasks/history/completions', {
+        limit: 50, // Enough to cover the last 24 hours... can be adjusted or done better
+      })
+      .subscribe({
+        next: (data) => {
+          // Filter only the completions that are today
+          const today = new Date().toISOString().split('T')[0]; // format YYYY-MM-DD
+          const completedToday = data.completions.filter((completion) => {
+            const completionDate = new Date(completion.completedAt)
+              .toISOString()
+              .split('T')[0];
+            return completionDate === today;
+          });
+
+          // Extract the task IDs from the completed tasks today
+          this.completedTodayIds = completedToday.map(
+            (completion) => completion.task.id
+          );
+
+          console.log('Tareas completadas hoy:', this.completedTodayIds);
+        },
+        error: (error) => {
+          console.error('Error loading today completions', error);
+        },
+      });
   }
 }

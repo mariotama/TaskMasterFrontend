@@ -57,7 +57,9 @@
     >
       <div
         class="task-content"
-        [class.text-decoration-line-through]="task.isCompleted"
+        [class.text-decoration-line-through]="
+          task.isCompleted || completedTodayIds.includes(task.id)
+        "
       >
         <div class="d-flex align-items-center">
           <span
@@ -83,7 +85,7 @@
       </div>
 
       <div class="d-flex">
-        @if (!task.isCompleted) {
+        @if (!task.isCompleted && !completedTodayIds.includes(task.id)) {
         <a
           [routerLink]="['/tasks', task.id]"
           class="btn btn-success btn-sm me-2"

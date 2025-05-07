@@ -102,4 +102,27 @@ export class AuthService {
       !!this.tokenService.getToken()
     );
   }
+
+  /**
+   * Updates the user information in memory.
+   * Fix for the xp bar was not updating...
+   */
+  updateUserInfo(userUpdates: Partial<User>): void {
+    // Obtain actual user
+    const currentUserValue = this.currentUser();
+
+    if (currentUserValue) {
+      // Update only this fields
+      const updatedUser = {
+        ...currentUserValue,
+        ...userUpdates,
+      };
+
+      // Update signal and BehaviorSubject
+      this.currentUser.set(updatedUser);
+      this.userSubject.next(updatedUser);
+
+      console.log('User info updated in memory:', updatedUser);
+    }
+  }
 }

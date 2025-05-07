@@ -11,29 +11,6 @@
             }
 
             <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input
-                type="email"
-                id="email"
-                formControlName="email"
-                class="form-control"
-                [ngClass]="{
-                  'is-invalid':
-                    loginForm.get('email')?.invalid &&
-                    loginForm.get('email')?.touched
-                }"
-              />
-              @if (loginForm.get('email')?.invalid &&
-              loginForm.get('email')?.touched) {
-              <div class="invalid-feedback">
-                @if (loginForm.get('email')?.errors?.['required']) { Email is
-                required } @else if (loginForm.get('email')?.errors?.['email'])
-                { Please enter a valid email address }
-              </div>
-              }
-            </div>
-
-            <div class="mb-3">
               <label for="username" class="form-label">Username</label>
               <input
                 type="text"
@@ -53,6 +30,29 @@
                 is required } @else if
                 (loginForm.get('username')?.errors?.['minlength']) { Username
                 must be at least 3 characters }
+              </div>
+              }
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                id="email"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="{
+                  'is-invalid':
+                    loginForm.get('email')?.invalid &&
+                    loginForm.get('email')?.touched
+                }"
+              />
+              @if (loginForm.get('email')?.invalid &&
+              loginForm.get('email')?.touched) {
+              <div class="invalid-feedback">
+                @if (loginForm.get('email')?.errors?.['required']) { Email is
+                required } @else if (loginForm.get('email')?.errors?.['email'])
+                { Please enter a valid email address }
               </div>
               }
             </div>

@@ -7,6 +7,7 @@ import { ProgressionResult } from '../../../../shared/models/progression.model';
 import { LevelUpService } from '../../../../shared/services/level-up.service';
 import { TaskCompleteComponent } from '../../components/task-complete/task-complete.component';
 import { NotificationService } from '../../../../shared/services/notification.service';
+import { AuthService } from '../../../../core/auth/auth.service';
 
 @Component({
   selector: 'app-task-detail',
@@ -21,6 +22,7 @@ export class TaskDetailComponent implements OnInit {
   private router = inject(Router);
   private levelUpService = inject(LevelUpService);
   private notificationService = inject(NotificationService);
+  private authService = inject(AuthService);
 
   task = signal<Task | null>(null);
   isLoading = signal(true);
@@ -70,6 +72,12 @@ export class TaskDetailComponent implements OnInit {
         this.task.update((task) =>
           task ? { ...task, isCompleted: true } : null
         );
+
+        this.authService.updateUserInfo({
+          currentXp: result.currentXp,
+          xpToNextLevel: result.xpToNextLevel,
+          level: result.currentLevel,
+        });
 
         // Show completion rewards overlay
         this.showReward.set(true);
