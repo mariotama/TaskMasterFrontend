@@ -9,6 +9,7 @@ import {
   TaskType,
 } from '../../../../shared/models/task.model';
 import { AuthService } from '../../../../core/auth/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-task-list',
@@ -18,6 +19,7 @@ import { AuthService } from '../../../../core/auth/auth.service';
   styleUrls: ['./task-list.component.scss'],
 })
 export class TaskListComponent implements OnInit {
+  private route = inject(ActivatedRoute);
   private apiService = inject(ApiService);
   private authService = inject(AuthService);
 
@@ -32,9 +34,14 @@ export class TaskListComponent implements OnInit {
     // Only load tasks if authenticated
     if (this.authService.isAuthenticated()) {
       this.loadTasks();
+
+      this.route.queryParams.subscribe((params) => {
+        if (params['filter']) {
+          this.applyFilter(params['filter']);
+        }
+      });
     } else {
       console.log('Not authenticated, waiting for auth state');
-      // Subscribe to auth changes and load tasks when authenticated
       this.authService.user$.subscribe((user) => {
         if (user) {
           this.loadTasks();

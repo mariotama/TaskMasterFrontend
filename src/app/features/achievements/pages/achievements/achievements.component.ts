@@ -31,7 +31,7 @@ export class AchievementsComponent implements OnInit {
     percentage: 0,
   });
 
-  // Métodos para obtener estadísticas de categorías
+  // Method for obtaining stats achievements
   levelTotal = computed(() => this.countAchievements('level'));
   levelUnlocked = computed(() => this.countAchievements('level', true));
 
@@ -41,7 +41,7 @@ export class AchievementsComponent implements OnInit {
   equipmentTotal = computed(() => this.countAchievements('equipment'));
   equipmentUnlocked = computed(() => this.countAchievements('equipment', true));
 
-  // Categoría especial (que no es ninguna de las anteriores)
+  // Special category
   specialTotal = computed(() => {
     return this.achievements().filter(
       (a) =>
@@ -65,11 +65,6 @@ export class AchievementsComponent implements OnInit {
     this.loadAchievements();
   }
 
-  /**
-   * Cuenta los logros de una categoría específica
-   * @param category Categoría a buscar en el icono
-   * @param onlyUnlocked Si solo se cuentan los desbloqueados
-   */
   private countAchievements(
     category: string,
     onlyUnlocked: boolean = false
@@ -84,14 +79,72 @@ export class AchievementsComponent implements OnInit {
     }
   }
 
-  /**
-   * Carga los logros desde el API
-   */
   loadAchievements(): void {
     this.apiService.get<Achievement[]>('achievement').subscribe({
       next: (data) => {
-        this.achievements.set(data);
-        this.calculateStats(data);
+        const sortedData = data.sort((a, b) => {
+          if (a.isUnlocked !== b.isUnlocked) {
+            return a.isUnlocked ? -1 : 1;
+          }
+
+          const getCategoryOrder = (achievement: Achievement) => {
+            if (
+              achievement.name.includes('Level') ||
+              achievement.name.includes('Apprentice') ||
+              achievement.name.includes('Expert') ||
+              achievement.name.includes('Master') ||
+              achievement.name.includes('Beginner')
+            )
+              return 1;
+            if (
+              achievement.name.includes('Complete') ||
+              achievement.name.includes('Productive') ||
+              achievement.name.includes('Worker') ||
+              achievement.name.includes('Unstoppable') ||
+              achievement.name.includes('Legend')
+            )
+              return 2;
+            if (
+              achievement.name.includes('Collector') ||
+              achievement.name.includes('Armory') ||
+              achievement.name.includes('Buy') ||
+              achievement.name.includes('equipment')
+            )
+              return 3;
+            return 4;
+          };
+
+          const categoryA = getCategoryOrder(a);
+          const categoryB = getCategoryOrder(b);
+
+          if (categoryA !== categoryB) return categoryA - categoryB;
+
+          const getAchievementOrder = (achievement: Achievement) => {
+            if (achievement.name === 'Beginner') return 5;
+            if (achievement.name === 'Apprentice') return 10;
+            if (achievement.name === 'Expert') return 25;
+            if (achievement.name === 'Master') return 50;
+
+            if (achievement.name === 'Productive') return 10;
+            if (achievement.name === 'Worker') return 50;
+            if (achievement.name === 'Unstoppable') return 100;
+            if (achievement.name === 'Legend') return 500;
+
+            if (achievement.name === 'Collector') return 5;
+            if (achievement.name === 'Armory') return 15;
+
+            const match = achievement.name.match(/\d+/);
+            return match ? parseInt(match[0]) : 0;
+          };
+
+          const orderA = getAchievementOrder(a);
+          const orderB = getAchievementOrder(b);
+
+          return orderA - orderB;
+        });
+
+        this.achievements.set(sortedData);
+        this.calculateStats(sortedData);
         this.isLoading.set(false);
       },
       error: (error) => {
@@ -101,9 +154,6 @@ export class AchievementsComponent implements OnInit {
     });
   }
 
-  /**
-   * Calcula las estadísticas generales de los logros
-   */
   calculateStats(achievements: Achievement[]): void {
     const total = achievements.length;
     const unlocked = achievements.filter((a) => a.isUnlocked).length;
@@ -116,16 +166,10 @@ export class AchievementsComponent implements OnInit {
     });
   }
 
-  /**
-   * Establece el filtro actual
-   */
   setFilter(filter: string): void {
     this.currentFilter.set(filter);
   }
 
-  /**
-   * Verifica si hay nuevos logros para desbloquear
-   */
   refreshAchievements(): void {
     this.isLoading.set(true);
     this.apiService.post('achievement/check', {}).subscribe({

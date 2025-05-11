@@ -19,59 +19,67 @@ export class PendingTasksWidgetComponent implements OnInit {
   isLoading = signal(true);
 
   ngOnInit(): void {
-    // First, get the history of completions for today
-    this.apiService
-      .get<any>('tasks/history/completions', {
-        page: 1,
-        limit: 100,
-      })
-      .subscribe({
-        next: (completionsData) => {
-          const completionsToday = completionsData.completions || [];
-
-          // Now we obtain the pending tasks
-          this.apiService
-            .get<Task[]>('tasks', { isCompleted: false })
-            .subscribe({
-              next: (data) => {
-                // We filter the tasks based on the completions today
-                const filteredTasks = data.filter((task) => {
-                  // If it's a mission, we don't filter it
-                  if (task.type !== 'daily') return true;
-
-                  // For dailies, verify if it has been completed today
-                  return !completionsToday.some(
-                    (completion: { task: { id: number } }) =>
-                      completion.task && completion.task.id === task.id
-                  );
-                });
-
-                // Limit to 5 task on the widget...
-                this.totalTasks.set(filteredTasks.length);
-                this.tasks.set(filteredTasks.slice(0, 5));
-                this.isLoading.set(false);
-              },
-              error: (error) => {
-                console.error('Error loading tasks', error);
-                this.isLoading.set(false);
-              },
-            });
-        },
-        error: (error) => {
-          console.error('Error loading completion history', error);
-          // If it fails, we load the tasks without filtering
-          this.loadTasksWithoutFiltering();
-        },
-      });
+    this.loadPendingTasks();
   }
 
-  // Backup method just in case
-  private loadTasksWithoutFiltering(): void {
-    this.apiService.get<Task[]>('tasks', { isCompleted: false }).subscribe({
-      next: (data) => {
-        this.totalTasks.set(data.length);
-        this.tasks.set(data.slice(0, 5));
-        this.isLoading.set(false);
+  loadPendingTasks(): void {
+    this.isLoading.set(true);
+
+    // Primero obtenemos TODAS las tareas (incluidas las diarias)
+    this.apiService.get<Task[]>('tasks').subscribe({
+      next: (allTasks) => {
+        // Luego obtenemos el historial de completados de HOY
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const tomorrow = new Date(today);
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        this.apiService
+          .get<any>('tasks/history/completions', {
+            page: 1,
+            limit: 100, // Asegurarnos de obtener todas las completadas hoy
+          })
+          .subscribe({
+            next: (completionsData) => {
+              const completions = completionsData.completions || [];
+
+              // Filtrar solo las completadas hoy
+              const todayCompletions = completions.filter((completion: any) => {
+                const completedDate = new Date(completion.completedAt);
+                return completedDate >= today && completedDate < tomorrow;
+              });
+
+              // IDs de tareas completadas hoy
+              const completedTodayIds = todayCompletions
+                .map((c: any) => c.task?.id)
+                .filter((id: number) => id !== undefined);
+
+              // Filtrar tareas pendientes
+              const pendingTasks = allTasks.filter((task) => {
+                // Si es una misión, solo verificar que no esté completada
+                if (task.type === TaskType.MISSION) {
+                  return !task.isCompleted;
+                }
+
+                // Si es una tarea diaria, verificar que no se haya completado hoy
+                return !completedTodayIds.includes(task.id);
+              });
+
+              this.totalTasks.set(pendingTasks.length);
+              this.tasks.set(pendingTasks.slice(0, 5));
+              this.isLoading.set(false);
+            },
+            error: (error) => {
+              console.error('Error loading completion history', error);
+              // Fallback: mostrar todas las tareas no completadas
+              const pendingTasks = allTasks.filter((task) =>
+                task.type === TaskType.MISSION ? !task.isCompleted : true
+              );
+              this.totalTasks.set(pendingTasks.length);
+              this.tasks.set(pendingTasks.slice(0, 5));
+              this.isLoading.set(false);
+            },
+          });
       },
       error: (error) => {
         console.error('Error loading tasks', error);
