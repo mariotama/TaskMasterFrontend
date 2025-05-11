@@ -16,6 +16,7 @@ export class ActivitySummaryComponent implements OnInit {
   statistics = signal<any>(null);
   recentActivity = signal<any[]>([]);
   isLoading = signal(true);
+  errorMessage = signal<string>('');
 
   ngOnInit(): void {
     // Load task statistics
@@ -25,6 +26,7 @@ export class ActivitySummaryComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error loading task statistics', error);
+        this.errorMessage.set('Failed to load statistics');
       },
     });
 
