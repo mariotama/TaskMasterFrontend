@@ -13,43 +13,6 @@ $common-color: #a5a5a5;
 $rare-color: #4a90e2;
 $epic-color: #9b59b6;
 
-// Typography
-$font-family-base: 'Roboto', sans-serif;
-$font-size-base: 1rem;
-$line-height-base: 1.5;
-
-// Spacing
-$spacer: 1rem;
-$spacers: (
-  0: 0,
-  1: $spacer * 0.25,
-  2: $spacer * 0.5,
-  3: $spacer,
-  4: $spacer * 1.5,
-  5: $spacer * 3,
-);
-
-// Breakpoints
-$breakpoints: (
-  xs: 0,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px,
-  xxl: 1400px
-);
-
-// Z-indices
-$z-indices: (
-  dropdown: 1000,
-  sticky: 1020,
-  fixed: 1030,
-  modal-backdrop: 1040,
-  modal: 1050,
-  popover: 1060,
-  tooltip: 1070,
-);
-
 // Animation durations
 $animation-duration-fast: 150ms;
 $animation-duration-normal: 300ms;
