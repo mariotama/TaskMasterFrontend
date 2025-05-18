@@ -6,10 +6,14 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "ng serve --host 0.0.0.0 --port $PORT --disable-host-check",
+    "build": "ng build --configuration production",
+    "serve": "ng serve",
+    "postinstall": "npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
   },
   "private": true,
   "dependencies": {
