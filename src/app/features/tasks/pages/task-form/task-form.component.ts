@@ -68,11 +68,22 @@ export class TaskFormComponent implements OnInit {
     this.isLoading.set(true);
     this.apiService.get(`tasks/${id}`).subscribe({
       next: (task: any) => {
+        // Formatting the due date to a string in 'YYYY-MM-DD' format
+        let formattedDueDate = '';
+        if (task.dueDate) {
+          const date = new Date(task.dueDate);
+          if (!isNaN(date.getTime())) {
+            formattedDueDate = date.toISOString().split('T')[0];
+          }
+        }
+
         this.taskForm.patchValue({
-          ...(task || {}),
-          dueDate: task.dueDate
-            ? new Date(task.dueDate).toISOString().split('T')[0]
-            : '',
+          title: task.title || '',
+          description: task.description || '',
+          type: task.type || TaskType.DAILY,
+          xpReward: task.xpReward || 10,
+          coinReward: task.coinReward || 5,
+          dueDate: formattedDueDate,
         });
         this.isLoading.set(false);
       },
@@ -86,11 +97,20 @@ export class TaskFormComponent implements OnInit {
 
   onSubmit(): void {
     if (this.taskForm.invalid || this.isSubmitting()) {
+      console.log('Form invalid. Errors:', this.getFormValidationErrors());
       return;
     }
 
     this.isSubmitting.set(true);
-    const taskData = this.taskForm.value;
+    this.errorMessage.set('');
+
+    const formData = this.taskForm.value;
+    const taskData = {
+      ...formData,
+      dueDate: formData.dueDate || null,
+    };
+
+    console.log('Submitting task data:', taskData);
 
     if (this.isEditMode()) {
       this.apiService.patch(`tasks/${this.taskId()}`, taskData).subscribe({
@@ -107,7 +127,6 @@ export class TaskFormComponent implements OnInit {
 
   private handleSuccess(message: string): void {
     this.isSubmitting.set(false);
-    // Show success message (could use a toast service here)
     console.log(message);
     this.router.navigate(['/tasks']);
   }
@@ -115,6 +134,52 @@ export class TaskFormComponent implements OnInit {
   private handleError(message: string, error: any): void {
     this.isSubmitting.set(false);
     console.error(message, error);
-    this.errorMessage.set(error?.error?.message || message);
+
+    if (error?.status === 400) {
+      this.errorMessage.set(
+        'Invalid task data. Please check all fields and try again.'
+      );
+    } else if (error?.status === 404) {
+      this.errorMessage.set('Task not found. It may have been deleted.');
+    } else {
+      this.errorMessage.set(
+        error?.error?.message || 'An error occurred. Please try again.'
+      );
+    }
+  }
+
+  private getFormValidationErrors(): any {
+    const result: any = {};
+    Object.keys(this.taskForm.controls).forEach((key) => {
+      const controlErrors = this.taskForm.get(key)?.errors;
+      if (controlErrors) {
+        result[key] = controlErrors;
+      }
+    });
+    return result;
+  }
+
+  isFieldInvalid(fieldName: string): boolean {
+    const field = this.taskForm.get(fieldName);
+    return !!(field && field.invalid && field.touched);
+  }
+
+  getFieldErrorMessage(fieldName: string): string {
+    const field = this.taskForm.get(fieldName);
+    if (field && field.errors && field.touched) {
+      if (field.errors['required']) {
+        return `${fieldName} is required`;
+      }
+      if (field.errors['minlength']) {
+        return `${fieldName} must be at least ${field.errors['minlength'].requiredLength} characters`;
+      }
+      if (field.errors['min']) {
+        return `${fieldName} must be at least ${field.errors['min'].min}`;
+      }
+      if (field.errors['max']) {
+        return `${fieldName} cannot exceed ${field.errors['max'].max}`;
+      }
+    }
+    return '';
   }
 }
