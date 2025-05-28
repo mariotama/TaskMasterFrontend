@@ -44,8 +44,7 @@ export class RegisterComponent {
       },
       error: (error) => {
         this.isSubmitting = false;
-        this.errorMessage =
-          error?.error?.message || 'Registration failed. Please try again.';
+        this.errorMessage = 'Registration failed. Please try again.';
       },
     });
   }

@@ -60,7 +60,20 @@ export class LoginComponent {
       error: (error) => {
         this.isSubmitting = false;
         console.error('Login failed with error:', error);
-        this.errorMessage = error?.message || 'Login failed. Please try again.';
+        // Simple friendly error message
+        if (
+          error?.status === 400 ||
+          error?.status === 401 ||
+          error?.status === 404
+        ) {
+          this.errorMessage =
+            'Invalid email, username, or password. Please check your credentials and try again.';
+        } else if (error?.status === 0) {
+          this.errorMessage =
+            'Unable to connect to the server. Please check your internet connection.';
+        } else {
+          this.errorMessage = 'Login failed. Please try again later.';
+        }
       },
       complete: () => {
         this.isSubmitting = false;
