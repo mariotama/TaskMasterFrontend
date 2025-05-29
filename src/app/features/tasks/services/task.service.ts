@@ -78,9 +78,6 @@ export class TaskService {
           if (result.leveledUp) {
             this.levelUpService.showLevelUp(result.currentLevel);
           }
-
-          // Play coin sound effect
-          this.playCoinSound();
         }),
         catchError((error) => {
           console.error('Error completing task:', error);
@@ -127,20 +124,5 @@ export class TaskService {
    */
   getTaskStatistics(): Observable<any> {
     return this.apiService.get('tasks/stats/summary');
-  }
-
-  /**
-   * Play coin sound when completing task
-   */
-  private playCoinSound(): void {
-    try {
-      const audio = new Audio('assets/sounds/coin.mp3');
-      audio.volume = 0.3; // 30% volume
-      audio.play().catch((error) => {
-        console.warn('Could not play coin sound:', error);
-      });
-    } catch (error) {
-      console.warn('Error playing coin sound:', error);
-    }
   }
 }

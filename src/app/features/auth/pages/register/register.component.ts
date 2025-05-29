@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/auth.service';
+import { strictEmailValidator } from '../../../../shared/validators/email.validator';
 
 @Component({
   selector: 'app-register',
@@ -23,7 +24,7 @@ export class RegisterComponent {
 
   registerForm: FormGroup = this.fb.group({
     username: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
+    email: ['', [Validators.required, strictEmailValidator()]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 

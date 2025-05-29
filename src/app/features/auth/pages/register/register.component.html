@@ -52,9 +52,9 @@
         @if (registerForm.get('email')?.invalid &&
         registerForm.get('email')?.touched) {
         <div class="invalid-feedback">
-          @if (registerForm.get('email')?.errors?.['required']) { Email is
-          required } @else if (registerForm.get('email')?.errors?.['email']) {
-          Please enter a valid email address }
+          @if (registerForm.get('email')?.errors?.['strictEmail']) {
+          {{ registerForm.get('email')?.errors?.['strictEmail']?.message }}
+          }
         </div>
         }
       </div>

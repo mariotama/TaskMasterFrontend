@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../../core/auth/auth.service';
 import { LoginCredentials } from '../../../../shared/models/auth.model';
+import { strictEmailValidator } from '../../../../shared/validators/email.validator';
 
 @Component({
   selector: 'app-login',
@@ -24,8 +25,8 @@ export class LoginComponent {
   private route = inject(ActivatedRoute);
 
   loginForm: FormGroup = this.fb.group({
-    email: ['', [Validators.required, Validators.email]],
     username: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, strictEmailValidator()]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 

@@ -31,13 +31,8 @@ export class TaskCompleteComponent implements OnInit {
   ngOnInit(): void {
     this.startAnimationSequence();
 
-    // Play completion sound
-    this.playCompletionSound();
-
     // Show notification
-    this.notificationService.success(`Task completed: ${this.taskName}`, {
-      soundEffect: false, // Already playing the completion sound
-    });
+    this.notificationService.success(`Task completed: ${this.taskName}`);
 
     // Check for achievements
     if (
@@ -67,18 +62,6 @@ export class TaskCompleteComponent implements OnInit {
     setTimeout(() => {
       this.xpAnimationComplete = true;
     }, 3500);
-  }
-
-  playCompletionSound(): void {
-    try {
-      const audio = new Audio('assets/sounds/task-complete.mp3');
-      audio.volume = 0.5; // 50% volume
-      audio.play().catch((error) => {
-        console.warn('Could not play completion sound:', error);
-      });
-    } catch (error) {
-      console.warn('Error playing completion sound:', error);
-    }
   }
 
   onClose(): void {

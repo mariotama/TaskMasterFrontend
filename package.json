@@ -1,6 +1,6 @@
 {
   "name": "taskmaster-frontend",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": {
     "name": "Mario Tamarit"
   },
@@ -8,8 +8,7 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0 --port $PORT --disable-host-check",
     "build": "ng build --configuration production",
-    "serve": "ng serve",
-    "postinstall": "npm run build"
+    "serve": "ng serve"
   },
   "engines": {
     "node": ">=18.0.0",

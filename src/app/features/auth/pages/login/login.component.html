@@ -46,9 +46,9 @@
         @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched)
         {
         <div class="invalid-feedback">
-          @if (loginForm.get('email')?.errors?.['required']) { Email is required
-          } @else if (loginForm.get('email')?.errors?.['email']) { Please enter
-          a valid email address }
+          @if (loginForm.get('email')?.errors?.['strictEmail']) {
+          {{ loginForm.get('email')?.errors?.['strictEmail']?.message }}
+          }
         </div>
         }
       </div>

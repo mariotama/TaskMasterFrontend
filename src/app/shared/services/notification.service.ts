@@ -4,7 +4,6 @@ import { BehaviorSubject } from 'rxjs';
 export interface NotificationOptions {
   duration?: number;
   type?: 'success' | 'error' | 'warning' | 'info';
-  soundEffect?: boolean;
 }
 
 export interface Notification {
@@ -19,59 +18,39 @@ export interface Notification {
 })
 export class NotificationService {
   private notificationCounter = 0;
-  private soundEffectsEnabled = true;
 
   // Observable for active notifications
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
   notifications$ = this.notificationsSubject.asObservable();
 
-  // Sound effects (placeholders for actual sound files!)
-  private readonly soundMap = {
-    success: 'success.mp3',
-    error: 'error.mp3',
-    warning: 'warning.mp3',
-    info: 'info.mp3',
-    achievement: 'achievement.mp3',
-    levelUp: 'level-up.mp3',
-    coin: 'coin.mp3',
-    task: 'task-complete.mp3',
-  };
-
   constructor() {}
-
-  /**
-   * Toggle sound effects
-   */
-  toggleSoundEffects(enabled: boolean): void {
-    this.soundEffectsEnabled = enabled;
-  }
 
   /**
    * Show a success notification
    */
   success(message: string, options?: NotificationOptions): void {
-    this.show(message, { type: 'success', soundEffect: true, ...options });
+    this.show(message, { type: 'success', ...options });
   }
 
   /**
    * Show an error notification
    */
   error(message: string, options?: NotificationOptions): void {
-    this.show(message, { type: 'error', soundEffect: true, ...options });
+    this.show(message, { type: 'error', ...options });
   }
 
   /**
    * Show a warning notification
    */
   warning(message: string, options?: NotificationOptions): void {
-    this.show(message, { type: 'warning', soundEffect: true, ...options });
+    this.show(message, { type: 'warning', ...options });
   }
 
   /**
    * Show an info notification
    */
   info(message: string, options?: NotificationOptions): void {
-    this.show(message, { type: 'info', soundEffect: true, ...options });
+    this.show(message, { type: 'info', ...options });
   }
 
   /**
@@ -84,15 +63,9 @@ export class NotificationService {
     const message = `Achievement Unlocked: ${achievementName}`;
     this.show(message, {
       type: 'success',
-      soundEffect: true,
       duration: 5000,
       ...options,
     });
-
-    // Play special achievement sound
-    if (this.soundEffectsEnabled && options?.soundEffect !== false) {
-      this.playSound('achievement');
-    }
   }
 
   /**
@@ -102,15 +75,9 @@ export class NotificationService {
     const message = `Level Up! You are now level ${level}`;
     this.show(message, {
       type: 'success',
-      soundEffect: true,
       duration: 5000,
       ...options,
     });
-
-    // Play level up sound
-    if (this.soundEffectsEnabled && options?.soundEffect !== false) {
-      this.playSound('levelUp');
-    }
   }
 
   /**
@@ -138,11 +105,6 @@ export class NotificationService {
 
     // Add to list
     this.addNotification(notification);
-
-    // Play sound if enabled
-    if (this.soundEffectsEnabled && finalOptions.soundEffect) {
-      this.playSound(finalOptions.type);
-    }
 
     // Auto-remove after duration
     setTimeout(() => {
@@ -197,23 +159,6 @@ export class NotificationService {
         return 'info-circle-fill';
       default:
         return 'bell-fill';
-    }
-  }
-
-  /**
-   * Play a sound effect
-   */
-  private playSound(type: string): void {
-    try {
-      const soundFile =
-        this.soundMap[type as keyof typeof this.soundMap] || this.soundMap.info;
-      const audio = new Audio(`assets/sounds/${soundFile}`);
-      audio.volume = 0.5; // 50% volume
-      audio.play().catch((error) => {
-        console.warn('Could not play notification sound:', error);
-      });
-    } catch (error) {
-      console.warn('Error playing notification sound:', error);
     }
   }
 }
