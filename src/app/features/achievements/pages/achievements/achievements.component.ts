@@ -174,9 +174,8 @@ export class AchievementsComponent implements OnInit {
     this.isLoading.set(true);
     this.apiService.post('achievement/check', {}).subscribe({
       next: (response: any) => {
-        // If achievements were unlocked, show appropriate feedback
+        // If achievements unlocked, show appropriate feedback
         if (response.unlockedCount > 0) {
-          // In a real app, you might want to show a toast notification here
           console.log(`${response.unlockedCount} achievements unlocked!`);
         }
         // Reload achievements to get the updated list

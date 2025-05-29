@@ -47,12 +47,8 @@ export class LoginComponent {
       password: this.loginForm.get('password')?.value,
     };
 
-    console.log('Form values for login:', this.loginForm.value);
-    console.log('Prepared credentials:', credentials);
-
     this.authService.login(credentials).subscribe({
       next: (response) => {
-        console.log('Login succeeded with response:', response);
         // Navigate to return URL or dashboard
         const returnUrl =
           this.route.snapshot.queryParams['returnUrl'] || '/dashboard';
@@ -60,7 +56,6 @@ export class LoginComponent {
       },
       error: (error) => {
         this.isSubmitting = false;
-        console.error('Login failed with error:', error);
         // Simple friendly error message
         if (
           error?.status === 400 ||

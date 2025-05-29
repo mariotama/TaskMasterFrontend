@@ -33,7 +33,6 @@ export class AuthService {
           console.log('User profile loaded successfully on initialization');
         },
         error: (error) => {
-          console.error('Error loading user profile on initialization', error);
           // Token might be expired or invalid, clear it
           this.tokenService.removeToken();
           this.userSubject.next(null);
@@ -45,15 +44,11 @@ export class AuthService {
   }
 
   login(credentials: LoginCredentials): Observable<AuthResponse> {
-    console.log('Login credentials being sent:', credentials);
-
     return this.apiService.post<AuthResponse>('auth/login', credentials).pipe(
       tap((response) => {
-        console.log('Login response received:', response);
         this.handleAuth(response);
       }),
       catchError((error) => {
-        console.error('Login failed:', error);
         return throwError(() => error);
       })
     );
@@ -76,7 +71,6 @@ export class AuthService {
   loadUserProfile(): Observable<User> {
     return this.apiService.get<User>('auth/me').pipe(
       tap((user) => {
-        console.log('User profile loaded:', user);
         this.userSubject.next(user);
         this.currentUser.set(user);
         this.isAuthenticated.set(true);
@@ -85,8 +79,6 @@ export class AuthService {
   }
 
   private handleAuth(response: AuthResponse): void {
-    console.log('Processing auth response:', response);
-
     if (!response || !response.token || !response.user) {
       console.error('Invalid auth response format:', response);
       return;
@@ -96,11 +88,6 @@ export class AuthService {
     this.userSubject.next(response.user);
     this.currentUser.set(response.user);
     this.isAuthenticated.set(true);
-
-    console.log(
-      'Auth state updated, token exists:',
-      !!this.tokenService.getToken()
-    );
   }
 
   /**
@@ -121,8 +108,6 @@ export class AuthService {
       // Update signal and BehaviorSubject
       this.currentUser.set(updatedUser);
       this.userSubject.next(updatedUser);
-
-      console.log('User info updated in memory:', updatedUser);
     }
   }
 }

@@ -25,7 +25,6 @@ export class ActivitySummaryComponent implements OnInit {
         this.statistics.set(data);
       },
       error: (error) => {
-        console.error('Error loading task statistics', error);
         this.errorMessage.set('Failed to load statistics');
       },
     });
@@ -40,9 +39,6 @@ export class ActivitySummaryComponent implements OnInit {
         next: (data) => {
           // Ensure we have valid completions array
           const completions = data.completions || [];
-
-          // Log the data to debug
-          console.log('Received completions data:', completions);
 
           // Make sure we only use completions that have valid task data
           const validCompletions = completions.filter((c) => c && c.task);

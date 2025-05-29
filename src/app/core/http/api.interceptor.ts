@@ -15,11 +15,6 @@ export const apiInterceptor: HttpInterceptorFn = (req, next) => {
       url: `${environment.apiUrl}/${path}`,
     });
 
-    console.log('🌐 API Interceptor:', {
-      original: req.url,
-      final: apiReq.url,
-    });
-
     return next(apiReq);
   }
   return next(req);

@@ -41,7 +41,6 @@ export class TaskListComponent implements OnInit {
         }
       });
     } else {
-      console.log('Not authenticated, waiting for auth state');
       this.authService.user$.subscribe((user) => {
         if (user) {
           this.loadTasks();

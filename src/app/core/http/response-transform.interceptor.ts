@@ -18,9 +18,6 @@ export const responseTransformInterceptor: HttpInterceptorFn = (req, next) => {
       if (event instanceof HttpResponse) {
         const body = event.body;
 
-        // Log all responses for debugging
-        console.log(`Response for ${req.url}:`, body);
-
         // Verify if the body has the expected structure
         if (
           body &&
@@ -29,10 +26,6 @@ export const responseTransformInterceptor: HttpInterceptorFn = (req, next) => {
           'data' in body &&
           'timestamp' in body
         ) {
-          console.log(
-            `Response transformer: Unwrapping API response for ${req.url}`
-          );
-
           // Extract the 'data' property
           const unwrappedData = body.data as { completions?: { task: any }[] };
 
@@ -47,11 +40,6 @@ export const responseTransformInterceptor: HttpInterceptorFn = (req, next) => {
               (c) => c && c.task
             );
             unwrappedData.completions = validCompletions;
-
-            console.log(
-              'Processing completions data:',
-              `Found ${validCompletions.length} valid completions`
-            );
           }
 
           // Create a new response with the unwrapped data

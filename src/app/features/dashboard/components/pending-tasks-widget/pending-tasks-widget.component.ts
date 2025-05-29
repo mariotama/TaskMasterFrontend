@@ -25,10 +25,8 @@ export class PendingTasksWidgetComponent implements OnInit {
   loadPendingTasks(): void {
     this.isLoading.set(true);
 
-    // Primero obtenemos TODAS las tareas (incluidas las diarias)
     this.apiService.get<Task[]>('tasks').subscribe({
       next: (allTasks) => {
-        // Luego obtenemos el historial de completados de HOY
         const today = new Date();
         today.setHours(0, 0, 0, 0);
         const tomorrow = new Date(today);
@@ -37,31 +35,26 @@ export class PendingTasksWidgetComponent implements OnInit {
         this.apiService
           .get<any>('tasks/history/completions', {
             page: 1,
-            limit: 100, // Asegurarnos de obtener todas las completadas hoy
+            limit: 100,
           })
           .subscribe({
             next: (completionsData) => {
               const completions = completionsData.completions || [];
 
-              // Filtrar solo las completadas hoy
               const todayCompletions = completions.filter((completion: any) => {
                 const completedDate = new Date(completion.completedAt);
                 return completedDate >= today && completedDate < tomorrow;
               });
 
-              // IDs de tareas completadas hoy
               const completedTodayIds = todayCompletions
                 .map((c: any) => c.task?.id)
                 .filter((id: number) => id !== undefined);
 
-              // Filtrar tareas pendientes
               const pendingTasks = allTasks.filter((task) => {
-                // Si es una misión, solo verificar que no esté completada
                 if (task.type === TaskType.MISSION) {
                   return !task.isCompleted;
                 }
 
-                // Si es una tarea diaria, verificar que no se haya completado hoy
                 return !completedTodayIds.includes(task.id);
               });
 
@@ -70,8 +63,6 @@ export class PendingTasksWidgetComponent implements OnInit {
               this.isLoading.set(false);
             },
             error: (error) => {
-              console.error('Error loading completion history', error);
-              // Fallback: mostrar todas las tareas no completadas
               const pendingTasks = allTasks.filter((task) =>
                 task.type === TaskType.MISSION ? !task.isCompleted : true
               );
@@ -82,7 +73,6 @@ export class PendingTasksWidgetComponent implements OnInit {
           });
       },
       error: (error) => {
-        console.error('Error loading tasks', error);
         this.isLoading.set(false);
       },
     });
